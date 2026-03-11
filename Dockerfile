@@ -7,7 +7,7 @@ ENV TZ=America/Bogota
 
 # ── System dependencies ───────────────────────────────────────────
 RUN apt-get update \
-    && apt-get install -y libonig-dev tzdata \
+    && apt-get install -y libonig-dev tzdata unzip git \
     && ln -fs /usr/share/zoneinfo/America/Bogota /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata \
     && rm -rf /var/lib/apt/lists/*
