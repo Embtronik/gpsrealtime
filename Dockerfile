@@ -27,10 +27,13 @@ WORKDIR /var/www/html
 
 # Install PHP deps as a separate layer (only re-runs when composer files change)
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+RUN composer install --no-dev --no-autoloader --no-interaction --ignore-platform-reqs
 
 # ── Application source ────────────────────────────────────────────
 COPY . .
+
+# Generar autoloader optimizado una vez que el código fuente está disponible
+RUN composer dump-autoload --optimize --no-dev --no-interaction
 
 # ── Permissions ───────────────────────────────────────────────────
 RUN mkdir -p logs \
