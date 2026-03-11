@@ -1,0 +1,24 @@
+# Secrets — never commit
+.env
+
+# Dependencies (managed by composer / pip)
+vendor/
+
+# Logs
+logs/*.log
+
+# Database backups y seeds (datos sensibles de clientes)
+backup/
+docker/mysql/initdb/01_restore.sql
+
+# XAMPP / OS
+*.DS_Store
+Thumbs.db
+
+# MySQL Workbench
+*.mwb
+*.mwb.bak
+
+# Misc
+usuarios.txt
+guia_despliegue.txt

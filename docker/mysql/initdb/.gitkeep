@@ -1,0 +1,13 @@
+# Carpeta de inicialización de MySQL
+#
+# Coloca aquí tu backup .sql con el nombre 01_restore.sql
+# MySQL lo ejecutará automáticamente la primera vez que el
+# volumen mysql_data esté vacío.
+#
+# Forma rápida (también puedes usar scripts/restore.sh --fresh):
+#   cp /ruta/al/backup.sql docker/mysql/initdb/01_restore.sql
+#   docker compose down -v
+#   docker compose up -d --build
+#
+# Si el volumen ya existe, usa la importación en caliente:
+#   ./scripts/restore.sh /ruta/al/backup.sql

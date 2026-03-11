@@ -1,0 +1,48 @@
+services:
+
+  # ── PHP / Apache application ──────────────────────────────────
+  app:
+    build: .
+    container_name: gpsrealtime_app
+    ports:
+      - "80:80"
+    env_file: .env
+    environment:
+      TZ: America/Bogota
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      # Persist logs on the host for easy access
+      - ./logs:/var/www/html/logs
+    restart: unless-stopped
+
+  # ── MySQL 8 database ──────────────────────────────────────────
+  db:
+    image: mysql:8.0
+    container_name: gpsrealtime_db
+    ports:
+      - "3306:3306"          # expuesto para conectar desde DBeaver/MySQL Workbench
+    environment:
+      MYSQL_DATABASE:      ${DB_NAME}
+      MYSQL_USER:          ${DB_USER}
+      MYSQL_PASSWORD:      ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      TZ:                  America/Bogota
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # Carpeta opcional: coloca aquí .sql para que se ejecuten en el primer arranque
+      - ./docker/mysql/initdb:/docker-entrypoint-initdb.d:ro
+      # Zona horaria del motor MySQL
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/timezone.cnf:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost",
+             "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout:  5s
+      retries:  10
+      start_period: 40s
+    restart: unless-stopped
+
+volumes:
+  mysql_data:

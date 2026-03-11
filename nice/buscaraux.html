@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>GPS Real Time</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="../img/logo.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="../img/logo.png" alt="">
+        <span class="d-none d-lg-block">GPS Real Time</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+    <div class="search-bar">
+      <form class="search-form d-flex align-items-center" method="POST" action="#">
+        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+      </form>
+    </div><!-- End Search Bar -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item d-block d-lg-none">
+          <a class="nav-link nav-icon search-bar-toggle " href="#">
+            <i class="bi bi-search"></i>
+          </a>
+        </li><!-- End Search Icon-->
+
+        
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="../img/logo.png" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2" id="perfil"></span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6 id="user-name"></h6>
+              <span id="rol"></span>
+            </li>            
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#" id="sign-out-button">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="auxiliar.html">
+          <i class="bi bi-grid"></i>
+          <span>Principal</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="buscaraux.html">
+          <i class="bi bi-card-list"></i>
+          <span>Buscar</span>
+        </a>
+      </li><!-- End Register Page Nav -->
+
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>GPS Real Time</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">Buscar</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Buscar Clientes</h5>
+
+              <!-- Multi Columns Form -->
+              <form class="row g-3" id="formBuscarCliente">
+                <div class="col-md-4">
+                  <label for="inputName5" class="form-label">Nombre</label>
+                  <input type="text" class="form-control" id="inputName">
+                </div>
+                <div class="col-md-4">
+                  <label for="inputEmail5" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="inputEmail">
+                </div>
+                <div class="col-md-4">
+                    <label for="inputEmail5" class="form-label">Identificación</label>
+                    <input type="text" class="form-control" id="inputIdentificacion">
+                </div>                
+                <div class="col-md-4">
+                  <label for="inputCity" class="form-label">Fecha Desde</label>
+                  <input type="date" class="form-control" id="fechaDesde">
+                </div>
+                <div class="col-md-4">
+                    <label for="inputCity" class="form-label">Fecha Hasta</label>
+                    <input type="date" class="form-control" id="fechaHasta">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="placa" class="form-label">Placa Vehículo</label>
+                    <input type="text" class="form-control" id="placa">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="imei" class="form-label">IMEI</label>
+                    <input type="text" class="form-control" id="imei">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="linea" class="form-label">Linea</label>
+                    <input type="text" class="form-control" id="linea">
+                  </div>
+                  <div class="col-md-4 d-flex align-items-end">
+                    <div class="flex-grow-1">
+                      <label for="extraParams" class="form-label">Adicional</label>
+                      <select class="form-select" id="extraParams">
+                        <option selected>Seleccione un parámetro</option>
+                        <option value="remision">Remisión</option>
+                        <option value="facturaNumero">Factura</option>
+                      </select>
+                    </div>
+                    <input type="text" class="form-control ms-2" id="extraParamValue" placeholder="Valor">
+                  </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Buscar</button>
+                </div>
+              </form><!-- End Multi Columns Form -->
+
+            </div>
+          </div>
+
+
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">GPS Real Time</h5>  
+              <div class="table-buscar-wrapper">
+              <!-- Tabla de resultados -->
+              <table id="tableClientes" class="table table-buscar">
+                <thead>
+                  <tr>
+                    <th scope='col'>Ítem</th>
+                    <th scope='col'>Nombre</th>
+                    <th scope='col'>Fecha</th>
+                    <th scope='col'>Servicio</th>
+                    <th scope='col'>Asignado</th>
+                    <th scope='col'>Estado</th>
+                    <th scope='col'>Operador</th>
+                    <th scope='col'>IMEI</th>
+                    <th scope='col'>Linea</th>
+                    <th scope='col'>Renovación</th>
+                    <th scope='col'>Fecha Renovacion</th>
+                    <th scope='col'>Recarga</th>
+                    <th scope='col'>Fecha de Recarga</th>
+                    <th scope='col'>Instalacion</th>
+                    <th scope='col'>Instalador</th>
+                    <th scope='col'>Valor Instalación</th>
+                    <th scope='col'>Pago Instalación</th>
+                    <th scope='col'>Valor Venta</th>
+                    <th scope='col'>Metodo de Pago</th>
+                    <th scope='col'>Realizar Factura</th>
+                    <th scope='col'>Manejo</th>
+                    <th scope='col'>Ingreso Pago</th>
+                    <th scope='col'>Remision</th>
+                    <th scope='col'>Factura Número</th>
+                    <th scope='col'>Actualizacion</th>
+                    <th scope='col'>Placa</th>
+                    <th scope='col'>Marca vehículo</th>
+                    <th scope='col'>Referencia</th>
+                    <th scope='col'>Modelo</th>
+                    <th scope='col'>Cilindraje</th>
+                    <th scope='col'>Tipo de Identificación</th>
+                    <th scope='col'>Número de Identificación</th>
+                    <th scope='col'>Teléfono</th>
+                    <th scope='col'>Email</th>
+                    <th scope='col'>Dirección</th>
+                    <th scope='col'>¿Cómo se enteró?</th>
+                    <th scope='col'>Comercial</th>
+                    <th scope='col'>Nombre Tercero</th>
+                    <th scope='col'>Identificación Tercero</th>
+                    <th scope='col'>Email Tercero</th>
+                    <th scope='col'>Teléfono Tercero</th>
+                    <th scope='col'>Editar</th>
+                    <th scope='col'>Seguimiento</th>
+                    <th scope='col'>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Filas de la tabla -->
+                </tbody>
+              </table>
+              <!-- End Table -->
+            </div>
+            <div id="paginacion"></div>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-primary" onclick="generarFile()">Generar Archivo</button>
+            </div>                
+        </div><!-- End Left side columns -->
+        
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>GPS Real Time</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+      <!-- Licensing information: https://bootstrapmade.com/license/ -->
+      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+      Designed by <a href="https://bootstrapmade.com/">Giovanny López</a>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/menu.js"></script>
+  <script src="assets/js/buscarclientes.js"></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
+</body>
+
+</html>

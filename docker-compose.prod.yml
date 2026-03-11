@@ -1,0 +1,39 @@
+# Producción — superpone docker-compose.yml
+#
+# Uso:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+#
+# Caddy obtiene y renueva el certificado TLS automáticamente.
+# Solo necesitas que DOMAIN en .env apunte al servidor (DNS configurado).
+
+services:
+
+  # ── app: quitar exposición directa; Caddy es el punto de entrada ──
+  app:
+    ports: []
+
+  # ── Caddy: reverse proxy + HTTPS automático (Let's Encrypt) ──────
+  caddy:
+    image: caddy:2-alpine
+    container_name: gpsrealtime_caddy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"    # HTTP/3
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+    restart: unless-stopped
+
+  # ── db: sin puerto expuesto en producción ─────────────────────────
+  db:
+    ports: []
+
+volumes:
+  caddy_data:     # certificados TLS (persistente)
+  caddy_config:   # estado interno de Caddy

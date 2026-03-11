@@ -1,0 +1,26 @@
+# Normalize line endings
+* text=auto
+
+# PHP, JS, HTML, CSS → LF en repo
+*.php text eol=lf
+*.js  text eol=lf
+*.html text eol=lf
+*.css  text eol=lf
+*.json text eol=lf
+*.sql  text eol=lf
+*.md   text eol=lf
+*.sh   text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.env  text eol=lf
+
+# Binarios → sin conversión
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.woff binary
+*.woff2 binary
+*.ttf  binary
+*.eot  binary

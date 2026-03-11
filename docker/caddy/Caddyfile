@@ -1,0 +1,19 @@
+{$DOMAIN} {
+    # Compresión gzip/zstd automática
+    encode zstd gzip
+
+    # Headers de seguridad
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Content-Type-Options    "nosniff"
+        X-Frame-Options           "SAMEORIGIN"
+        Referrer-Policy           "strict-origin-when-cross-origin"
+        -Server
+    }
+
+    # Proxy al contenedor PHP/Apache
+    reverse_proxy app:80 {
+        header_up X-Forwarded-Proto {scheme}
+        header_up X-Real-IP        {remote_host}
+    }
+}

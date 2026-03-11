@@ -1,0 +1,30 @@
+# ── Deps & build outputs ──────────────────────────────────────────
+vendor/
+node_modules/
+
+# ── Secrets ───────────────────────────────────────────────────────
+.env
+
+# ── Git ───────────────────────────────────────────────────────────
+.git
+.github
+
+# ── Database backups (large; mounted at runtime) ──────────────────
+backup/
+
+# ── DB init folder (copied manually before first run) ────────────
+docker/mysql/initdb/*.sql
+
+# ── Logs ─────────────────────────────────────────────────────────
+logs/
+
+# ── Python ETL (separate concern) ────────────────────────────────
+ETL/
+
+# ── Dev / OS artefacts ───────────────────────────────────────────
+*.mwb
+*.mwb.bak
+*.DS_Store
+Thumbs.db
+usuarios.txt
+guia_despliegue.txt

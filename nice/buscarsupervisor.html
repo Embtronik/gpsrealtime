@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>GPS Real Time - Buscar Clientes</title>
+  <link href="../img/logo.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Nunito:300,400,600,700|Poppins:300,400,500,600,700" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="supervisor.html" class="logo d-flex align-items-center">
+        <img src="../img/logo.png" alt="">
+        <span class="d-none d-lg-block">GPS Real Time</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div>
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+        <li class="nav-item dropdown pe-3">
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="../img/logo.png" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2" id="perfil"></span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6 id="user-name"></h6>
+              <span id="rol"></span>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#" id="sign-out-button">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Cerrar Sesión</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="supervisor.html">
+          <i class="bi bi-grid"></i>
+          <span>Principal</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="buscarsupervisor.html">
+          <i class="bi bi-search"></i>
+          <span>Buscar Clientes</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="inspecciones.html">
+          <i class="bi bi-clipboard-check"></i>
+          <span>Inspecciones GPS</span>
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Buscar Clientes</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="supervisor.html">Inicio</a></li>
+          <li class="breadcrumb-item active">Buscar Clientes</li>
+        </ol>
+      </nav>
+    </div>
+
+    <section class="section dashboard">
+      <div class="row">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Buscar Clientes</h5>
+            <form class="row g-3" id="formBuscarCliente">
+              <div class="col-md-4">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="inputName">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" id="inputEmail">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Identificación</label>
+                <input type="text" class="form-control" id="inputIdentificacion">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Fecha Desde</label>
+                <input type="date" class="form-control" id="fechaDesde">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Fecha Hasta</label>
+                <input type="date" class="form-control" id="fechaHasta">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Placa Vehículo</label>
+                <input type="text" class="form-control" id="placa">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">IMEI</label>
+                <input type="text" class="form-control" id="imei">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Linea</label>
+                <input type="text" class="form-control" id="linea">
+              </div>
+              <div class="col-md-4 d-flex align-items-end">
+                <div class="flex-grow-1">
+                  <label class="form-label">Adicional</label>
+                  <select class="form-select" id="extraParams">
+                    <option selected>Seleccione un parámetro</option>
+                    <option value="remision">Remisión</option>
+                    <option value="facturaNumero">Factura</option>
+                  </select>
+                </div>
+                <input type="text" class="form-control ms-2" id="extraParamValue" placeholder="Valor">
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Resultados</h5>
+            <div class="table-buscar-wrapper">
+              <table id="tableClientes" class="table table-buscar">
+                <thead>
+                  <tr>
+                    <th>Ítem</th>
+                    <th>Nombre</th>
+                    <th>Fecha</th>
+                    <th>Servicio</th>
+                    <th>Asignado</th>
+                    <th>Estado</th>
+                    <th>Operador</th>
+                    <th>IMEI</th>
+                    <th>Linea</th>
+                    <th>Renovación</th>
+                    <th>Fecha Renovacion</th>
+                    <th>Recarga</th>
+                    <th>Fecha de Recarga</th>
+                    <th>Instalacion</th>
+                    <th>Instalador</th>
+                    <th>Valor Instalación</th>
+                    <th>Pago Instalación</th>
+                    <th>Valor Venta</th>
+                    <th>Metodo de Pago</th>
+                    <th>Realizar Factura</th>
+                    <th>Manejo</th>
+                    <th>Ingreso Pago</th>
+                    <th>Remision</th>
+                    <th>Factura Número</th>
+                    <th>Actualizacion</th>
+                    <th>Placa</th>
+                    <th>Marca vehículo</th>
+                    <th>Referencia</th>
+                    <th>Modelo</th>
+                    <th>Cilindraje</th>
+                    <th>Tipo de Identificación</th>
+                    <th>Número de Identificación</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>Dirección</th>
+                    <th>¿Cómo se enteró?</th>
+                    <th>Comercial</th>
+                    <th>Nombre Tercero</th>
+                    <th>Identificación Tercero</th>
+                    <th>Email Tercero</th>
+                    <th>Teléfono Tercero</th>
+                    <th>Ver Cliente</th>
+                  </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+          <div id="paginacion"></div>        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-primary" onclick="generarFile()">Generar Archivo</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>GPS Real Time</span></strong>. All Rights Reserved
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/menu.js"></script>
+  <script src="assets/js/buscarsupervisor.js"></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+</body>
+</html>
