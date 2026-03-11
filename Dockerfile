@@ -1,4 +1,6 @@
-FROM php:8.2-apache
+# syntax=docker/dockerfile:1
+# Imagen compatible con AMD64 (x86 server) y ARM64 (OrangePi, Raspberry Pi, Mac M1/M2)
+FROM --platform=$BUILDPLATFORM php:8.2-apache
 
 # ── Timezone (America/Bogota = UTC-5, sin DST) ───────────────────
 ENV TZ=America/Bogota
@@ -25,8 +27,8 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Install PHP deps as a separate layer (only re-runs when composer files change)
-COPY composer.json composer.lock ./
+# Instalar dependencias PHP (sin composer.lock para regenerar en la arquitectura del servidor)
+COPY composer.json ./
 RUN composer install --no-dev --no-autoloader --no-interaction --ignore-platform-reqs
 
 # ── Application source ────────────────────────────────────────────
