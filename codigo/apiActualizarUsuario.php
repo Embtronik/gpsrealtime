@@ -61,7 +61,7 @@ try {
         exit;
     }
 
-    $stmt = $conn->prepare("CALL SP_ActualizarUsuario(?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("CALL SP_EditarUsuarioAcceso(?, ?, ?, ?, ?, ?)");
     $stmt->execute([$idusuario, $idusuarioCredenciales, $nombre, $email, $id_rol, $passwordHash]);
     do { $stmt->closeCursor(); } while ($stmt->nextRowset());
 

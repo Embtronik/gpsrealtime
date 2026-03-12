@@ -157,11 +157,11 @@ END //
 
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS SP_ActualizarUsuario;
+DROP PROCEDURE IF EXISTS SP_EditarUsuarioAcceso;
 
 DELIMITER //
 
-CREATE PROCEDURE SP_ActualizarUsuario(
+CREATE PROCEDURE SP_EditarUsuarioAcceso(
   IN p_idusuario             INT,
   IN p_idusuarioCredenciales INT,
   IN p_nombre                VARCHAR(255),

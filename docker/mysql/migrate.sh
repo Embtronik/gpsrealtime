@@ -40,6 +40,7 @@ insertar_usuario
 SP_ListarUsuariosAcceso
 SP_CambiarPasswordUsuario
 SP_EliminarUsuarioLogico
+SP_EditarUsuarioAcceso
 sp_insert_p_comercial
 sp_read_p_comercial
 sp_update_p_comercial
@@ -91,7 +92,7 @@ done
 
 echo ""
 if [ "$MISSING" -eq 0 ]; then
-  echo "=== Todos los SPs verificados correctamente (37/37) ==="
+  echo "=== Todos los SPs verificados correctamente (38/38) ==="
 else
   echo "=== ADVERTENCIA: $MISSING SP(s) no se crearon correctamente ==="
   exit 1
