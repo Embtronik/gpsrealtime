@@ -38,9 +38,10 @@ COPY . .
 RUN composer dump-autoload --optimize --no-dev --no-interaction
 
 # ── Permissions ───────────────────────────────────────────────────
-RUN mkdir -p logs \
-    && chown -R www-data:www-data /var/www/html \
+RUN mkdir -p logs /tmp/php_sessions \
+    && chown -R www-data:www-data /var/www/html /tmp/php_sessions \
     && chmod -R 755 /var/www/html \
-    && chmod -R 775 /var/www/html/logs
+    && chmod -R 775 /var/www/html/logs \
+    && chmod 1777 /tmp/php_sessions
 
 EXPOSE 80
