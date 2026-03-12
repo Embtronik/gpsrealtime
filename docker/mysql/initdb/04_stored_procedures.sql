@@ -400,22 +400,22 @@ DROP PROCEDURE IF EXISTS consulta_buscarClientes;
 DELIMITER //
 
 CREATE PROCEDURE consulta_buscarClientes(
-    IN p_nombre           VARCHAR(255),
-    IN p_email            VARCHAR(255),
-    IN p_identificacion   VARCHAR(255),
-    IN p_fechaDesde       DATE,
-    IN p_fechaHasta       DATE,
-    IN p_placa            VARCHAR(45),
-    IN p_imei             VARCHAR(45),
-    IN p_linea            VARCHAR(45),
-    IN p_extraParam       VARCHAR(45),
-    IN p_extraParamValue  VARCHAR(45),
-    IN p_limit            INT,
-    IN p_offset           INT
+    IN p_nombre          VARCHAR(255),
+    IN p_email           VARCHAR(255),
+    IN p_identificacion  VARCHAR(255),
+    IN p_fechaDesde      DATE,
+    IN p_fechaHasta      DATE,
+    IN p_placa           VARCHAR(45),
+    IN p_imei            VARCHAR(45),
+    IN p_linea           VARCHAR(45),
+    IN p_extraParam      VARCHAR(45),
+    IN p_extraParamValue VARCHAR(45),
+    IN p_limit           INT,
+    IN p_offset          INT
 )
 BEGIN
-    DECLARE v_sql   TEXT;
-    DECLARE v_where TEXT;
+    DECLARE v_sql   LONGTEXT;
+    DECLARE v_where LONGTEXT;
 
     SET p_nombre          = NULLIF(p_nombre, '');
     SET p_email           = NULLIF(p_email, '');
@@ -426,37 +426,34 @@ BEGIN
     SET p_extraParam      = NULLIF(p_extraParam, '');
     SET p_extraParamValue = NULLIF(p_extraParamValue, '');
 
-    IF p_fechaDesde = '' THEN SET p_fechaDesde = NULL; END IF;
-    IF p_fechaHasta = '' THEN SET p_fechaHasta = NULL; END IF;
-
     SET v_where = ' WHERE 1=1';
 
     IF p_nombre IS NOT NULL THEN
-        SET v_where = CONCAT(v_where, ' AND u.nombre LIKE CONCAT("%", "', p_nombre, '", "%")');
+        SET v_where = CONCAT(v_where, ' AND u.nombre LIKE ''%', p_nombre, '%''');
     END IF;
     IF p_email IS NOT NULL THEN
-        SET v_where = CONCAT(v_where, ' AND u.email = "', p_email, '"');
+        SET v_where = CONCAT(v_where, ' AND u.email = ''', p_email, '''');
     END IF;
     IF p_identificacion IS NOT NULL THEN
-        SET v_where = CONCAT(v_where, ' AND u.identificacion = "', p_identificacion, '"');
+        SET v_where = CONCAT(v_where, ' AND u.identificacion = ''', p_identificacion, '''');
     END IF;
     IF p_imei IS NOT NULL THEN
-        SET v_where = CONCAT(v_where, ' AND dds.imei LIKE CONCAT("%", "', p_imei, '", "%")');
+        SET v_where = CONCAT(v_where, ' AND dds.imei LIKE ''%', p_imei, '%''');
     END IF;
     IF p_linea IS NOT NULL THEN
-        SET v_where = CONCAT(v_where, ' AND dds.linea LIKE CONCAT("%", "', p_linea, '", "%")');
+        SET v_where = CONCAT(v_where, ' AND dds.linea LIKE ''%', p_linea, '%''');
     END IF;
     IF p_fechaDesde IS NOT NULL THEN
-        SET v_where = CONCAT(v_where, ' AND s.fechaInicioFormulario >= "', p_fechaDesde, '"');
+        SET v_where = CONCAT(v_where, ' AND s.fechaInicioFormulario >= ''', p_fechaDesde, '''');
     END IF;
     IF p_fechaHasta IS NOT NULL THEN
-        SET v_where = CONCAT(v_where, ' AND s.fechaInicioFormulario <= "', p_fechaHasta, '"');
+        SET v_where = CONCAT(v_where, ' AND s.fechaInicioFormulario <= ''', p_fechaHasta, '''');
     END IF;
     IF p_placa IS NOT NULL THEN
-        SET v_where = CONCAT(v_where, ' AND v.placa LIKE CONCAT("%", "', p_placa, '", "%")');
+        SET v_where = CONCAT(v_where, ' AND v.placa LIKE ''%', p_placa, '%''');
     END IF;
     IF p_extraParam IS NOT NULL AND p_extraParamValue IS NOT NULL THEN
-        SET v_where = CONCAT(v_where, ' AND dds.', p_extraParam, ' LIKE "%', p_extraParamValue, '%"');
+        SET v_where = CONCAT(v_where, ' AND dds.', p_extraParam, ' LIKE ''%', p_extraParamValue, '%''');
     END IF;
 
     SET v_where = CONCAT(v_where, ' AND ur.p_rol_idp_rol = 2');
@@ -530,7 +527,9 @@ BEGIN
         LEFT JOIN p_comoseentero cse ON s.p_comoSeEntero_idp_comoSeEntero = cse.idp_comoSeEntero
         LEFT JOIN p_tiposervicio ts ON s.p_tipoServicio_idp_tipoServicio = ts.idp_tipoServicio
         LEFT JOIN p_comercial co ON s.p_comercial_idp_comercial = co.idp_comercial
-        LEFT JOIN vehiculoporusuario vpu ON vpu.usuario_idusuario = u.idusuario AND vpu.vehiculo_idvehiculo = v.idvehiculo AND vpu.estadoRegistro = 1
+        LEFT JOIN vehiculoporusuario vpu ON vpu.usuario_idusuario = u.idusuario
+            AND vpu.vehiculo_idvehiculo = v.idvehiculo
+            AND vpu.estadoRegistro = 1
         LEFT JOIN tercero t ON vpu.idvehiculoPorUsuario = t.idvehiculoPorUsuario',
         v_where,
         ' ORDER BY idServicio DESC'
@@ -540,7 +539,8 @@ BEGIN
         SET v_sql = CONCAT(v_sql, ' LIMIT ', p_offset, ', ', p_limit);
     END IF;
 
-    PREPARE stmt FROM v_sql;
+    SET @v_sql = v_sql;
+    PREPARE stmt FROM @v_sql;
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
 
