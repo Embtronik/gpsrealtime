@@ -51,7 +51,7 @@ BEGIN
     INSERT INTO usuariorol (estadoRegistro, usuario_idusuario, p_rol_idp_rol)
     VALUES (1, id_user, p_rol);
 
-    INSERT INTO usuariocredenciales(username, password, estadoRegistro, fechaRegistro, usuario_idusuario)
+    INSERT INTO usuarioCredenciales(username, password, estadoRegistro, fechaRegistro, usuario_idusuario)
     VALUES (p_username, p_password, 1, NOW(), id_user);
 END //
 

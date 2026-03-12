@@ -324,7 +324,7 @@ BEGIN
   SELECT DISTINCT u.idusuario, uc.username, ur.p_rol_idp_rol
   FROM usuario u
   INNER JOIN usuariorol ur ON u.idusuario = ur.usuario_idusuario AND ur.estadoRegistro = 1
-  INNER JOIN usuariocredenciales uc ON u.idusuario = uc.usuario_idusuario AND uc.estadoRegistro = 1
+  INNER JOIN usuarioCredenciales uc ON u.idusuario = uc.usuario_idusuario AND uc.estadoRegistro = 1
   WHERE ur.p_rol_idp_rol IN (1, 3);
 END //
 
