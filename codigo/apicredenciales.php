@@ -88,7 +88,7 @@ try {
         JOIN   p_rol       r  ON r.idp_rol            = ur.p_rol_idp_rol
         WHERE  uc.username        = :usuario
           AND  uc.estadoRegistro  = 1
-          AND  ur.p_rol_idp_rol   IN (1, 2, 3, 4, 5)
+          AND  ur.p_rol_idp_rol   IN (1, 3, 4, 5)
         ORDER  BY ur.idusuarioRol DESC
         LIMIT  1
     ");
