@@ -20,7 +20,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $placa = $data['matricula'];
         $imei = $data['imei'];
         $linea = $data['linea'];
-        $extraParam = $data['extraParam'];
+        // Whitelist to prevent SQL injection via dynamic column name
+        $allowedExtraParams = [
+            'asignado', 'operador', 'imei', 'linea', 'renovacion', 'recarga',
+            'instalacion', 'instalador', 'valorInstalacion', 'pagoInstalacion',
+            'valorVenta', 'medotoPago', 'realizarFactura', 'manejo',
+            'ingresoPago', 'remision', 'facturaNumero', 'actualizacion'
+        ];
+        $rawExtraParam = $data['extraParam'] ?? '';
+        $extraParam = in_array($rawExtraParam, $allowedExtraParams, true) ? $rawExtraParam : '';
         $extraParamValue = $data['extraParamValue'];
 
         // Paginación server-side
