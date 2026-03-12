@@ -1,16 +1,16 @@
-// assets/js/inspeccion.js
+﻿// assets/js/inspeccion.js
 
 // Config del servidor (inyectada en la vista inspeccion.php)
 const { ENDPOINT_SCHEMA, SESSION_USER } = window.APP || {};
 
-// --- Opciones especiales para algunos ítems ---
+// --- Opciones especiales para algunos Ã­tems ---
 const OPCIONES_UBICACION = [
   'paral izquierdo','parar derecho','silla conductor','silla copiloto',
   'techo','posa pie','palanca de cambios','silla trasera combustible','parte delantera motor'
 ];
 const OPCIONES_ENERGIA = ['Corte de corriente','Corte de combustible','Sin corte'];
 
-// Paleta de colores (para el select del ítem Color)
+// Paleta de colores (para el select del Ã­tem Color)
 const COLOR_OPTIONS = [
   'Blanco','Negro','Gris','Rojo','Azul','Verde','Amarillo','Naranja','Plateado','Beige'
 ];
@@ -24,8 +24,8 @@ function hoyLocalYYYYMMDD() {
   return `${y}-${m}-${day}`;
 }
 function normalize(str){return (str||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
-function esItemUbicacion(n){return normalize(n)===normalize('Ubicación del GPS segura y discreta');}
-function esItemEnergia(n){return normalize(n)===normalize('Donde Toma Energía para GPS');}
+function esItemUbicacion(n){return normalize(n)===normalize('UbicaciÃ³n del GPS segura y discreta');}
+function esItemEnergia(n){return normalize(n)===normalize('Donde Toma EnergÃ­a para GPS');}
 function esItemColor(n){return normalize(n)===normalize('Color');}
 
 // Inicializa el comportamiento del select de color (mostrar input "Otro...")
@@ -35,7 +35,7 @@ function setupColorSelects(){
     const otro = wrap.querySelector('.observacion-color-otro');
     if (!sel || !otro) return;
 
-    // Estado inicial: ocultar input si no está "OTRO"
+    // Estado inicial: ocultar input si no estÃ¡ "OTRO"
     if (sel.value !== 'OTRO') otro.classList.add('d-none');
 
     sel.addEventListener('change', () => {
@@ -55,137 +55,133 @@ function renderFormulario(schema) {
   const cont = document.getElementById('form-container');
   cont.innerHTML = '';
 
-  // Datos generales (fecha/tecnico deshabilitados)
   const fechaHoy = hoyLocalYYYYMMDD();
-  const generales = document.createElement('div');
-  generales.className = 'mb-3';
-  generales.innerHTML = `
-    <div class="row g-3">
-      <div class="col-md-3">
-        <label class="form-label">Fecha</label>
-        <input type="date" id="fecha" class="form-control" value="${fechaHoy}" disabled>
-        <input type="hidden" id="fecha_hidden" value="${fechaHoy}">
-        <div class="form-text">Fecha tomada automáticamente del sistema.</div>
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">Técnico</label>
-        <input type="text" id="tecnico" class="form-control" value="${SESSION_USER?.nombre || ''}" disabled>
-        <input type="hidden" id="tecnico_hidden" value="${SESSION_USER?.nombre || ''}">
-        <input type="hidden" id="user_id_hidden" value="${SESSION_USER?.user_id || 0}">
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">Placa</label>
-        <input type="text" id="placa" class="form-control" placeholder="ABC123">
-      </div>
 
-      <!-- NUEVOS CAMPOS -->
-      <div class="col-md-6">
-        <label class="form-label">Nombre del cliente</label>
-        <input type="text" id="nombre_cliente" class="form-control" placeholder="Nombre y apellido" required>
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">Email cliente</label>
-        <input type="email" id="email_cliente" class="form-control" placeholder="cliente@dominio.com">
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">Teléfono cliente</label>
-        <input type="text" id="telefono_cliente" class="form-control" placeholder="+57 311 123 4567">
-      </div>
+  // â”€â”€ SecciÃ³n: datos generales â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  const cardGen = document.createElement('div');
+  cardGen.className = 'insp-card';
+  cardGen.innerHTML = `
+    <div class="insp-card-header">
+      <i class="bi bi-clipboard2-fill"></i>
+      <span>Datos Generales</span>
     </div>
-  `;
-  cont.appendChild(generales);
+    <div class="insp-card-body">
+      <div class="generales-grid">
+        <div>
+          <label class="gps-label">Fecha</label>
+          <input type="date" id="fecha" class="gps-input" value="${fechaHoy}" disabled>
+          <input type="hidden" id="fecha_hidden" value="${fechaHoy}">
+        </div>
+        <div>
+          <label class="gps-label">TÃ©cnico</label>
+          <input type="text" id="tecnico" class="gps-input" value="${SESSION_USER?.nombre || ''}" disabled>
+          <input type="hidden" id="tecnico_hidden" value="${SESSION_USER?.nombre || ''}">
+          <input type="hidden" id="user_id_hidden" value="${SESSION_USER?.user_id || 0}">
+        </div>
+        <div>
+          <label class="gps-label">Placa <span class="req">*</span></label>
+          <input type="text" id="placa" class="gps-input" placeholder="ABC123" style="text-transform:uppercase;letter-spacing:.08em;font-weight:600">
+        </div>
+        <div>
+          <label class="gps-label">TelÃ©fono cliente</label>
+          <input type="tel" id="telefono_cliente" class="gps-input" inputmode="tel" placeholder="+57 311 123 4567">
+        </div>
+        <div class="col-full">
+          <label class="gps-label">Nombre del cliente <span class="req">*</span></label>
+          <input type="text" id="nombre_cliente" class="gps-input" placeholder="Nombre y apellido" required>
+        </div>
+        <div class="col-full">
+          <label class="gps-label">Email cliente</label>
+          <input type="email" id="email_cliente" class="gps-input" inputmode="email" placeholder="cliente@dominio.com">
+        </div>
+      </div>
+    </div>`;
+  cont.appendChild(cardGen);
 
-  // Secciones por categoría
+  // â”€â”€ Secciones por categorÃ­a â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   schema.categorias.forEach(cat => {
     const card = document.createElement('div');
-    card.className = 'card card-section mt-3';
-    card.innerHTML = `<div class="card-header fw-semibold">${cat.nombre}</div>`;
+    card.className = 'insp-card';
+    card.innerHTML = `
+      <div class="insp-card-header">
+        <i class="bi bi-check2-square"></i>
+        <span>${cat.nombre}</span>
+      </div>`;
     const body = document.createElement('div');
-    body.className = 'card-body';
+    body.className = 'insp-card-body';
 
     if (cat.items.length > 0) {
-      const table = document.createElement('table');
-      table.className = 'table table-hover align-middle';
-      table.innerHTML = `
-        <thead>
-          <tr>
-            <th class="item-col">Ítem</th>
-            <th style="width:160px">Estado</th>
-            <th>Observaciones</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      `;
-      const tbody = table.querySelector('tbody');
-
       cat.items.forEach(it => {
-        const tr = document.createElement('tr');
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'item-insp';
 
-        // Estado (alineado con tu BD si usas ENUM CUMPLE / NO_CUMPLE / NA)
+        // Estado HTML
         const estadoHtml = `
-          <select class="form-select estado" data-item-id="${it.id}" required>
-            <option value="">Seleccione…</option>
-            <option value="BUENO">✔ BUENO</option>
-            <option value="REGULAR">✔ REGULAR</option>
-            <option value="MALO">✖ MALO</option>
-            <option value="NA">N/A</option>
-          </select>`;
+          <div>
+            <label class="gps-label">Estado</label>
+            <select class="gps-input gps-estado estado" data-item-id="${it.id}" required>
+              <option value="">Seleccioneâ€¦</option>
+              <option value="BUENO">âœ” BUENO</option>
+              <option value="REGULAR">~ REGULAR</option>
+              <option value="MALO">âœ– MALO</option>
+              <option value="NA">N/A</option>
+            </select>
+          </div>`;
 
-        // Observación según el ítem
+        // ObservaciÃ³n segÃºn el Ã­tem
         let observacionHtml;
         if (esItemUbicacion(it.nombre)) {
-          const options = ['<option value="">Seleccione ubicación…</option>']
-            .concat(OPCIONES_UBICACION.map(o => `<option value="${o}">${o}</option>`))
-            .join('');
-          observacionHtml = `<select class="form-select observacion" data-item-id="${it.id}">${options}</select>`;
-
+          const opts = ['<option value="">Seleccione ubicaciÃ³nâ€¦</option>']
+            .concat(OPCIONES_UBICACION.map(o => `<option value="${o}">${o}</option>`)).join('');
+          observacionHtml = `
+            <div class="col-full">
+              <label class="gps-label">UbicaciÃ³n</label>
+              <select class="gps-input observacion" data-item-id="${it.id}">${opts}</select>
+            </div>`;
         } else if (esItemEnergia(it.nombre)) {
-          const options = ['<option value="">Seleccione fuente de energía…</option>']
-            .concat(OPCIONES_ENERGIA.map(o => `<option value="${o}">${o}</option>`))
-            .join('');
-          observacionHtml = `<select class="form-select observacion" data-item-id="${it.id}">${options}</select>`;
-
+          const opts = ['<option value="">Seleccione fuenteâ€¦</option>']
+            .concat(OPCIONES_ENERGIA.map(o => `<option value="${o}">${o}</option>`)).join('');
+          observacionHtml = `
+            <div class="col-full">
+              <label class="gps-label">Fuente de energÃ­a</label>
+              <select class="gps-input observacion" data-item-id="${it.id}">${opts}</select>
+            </div>`;
         } else if (esItemColor(it.nombre)) {
-        // SELECT de colores + opción "Otro..."
-        const options = ['<option value="">Seleccione color…</option>']
+          const opts = ['<option value="">Seleccione colorâ€¦</option>']
             .concat(COLOR_OPTIONS.map(n => `<option value="${n}">${n}</option>`))
-            .concat('<option value="OTRO">Otro…</option>')
-            .join('');
-
-        observacionHtml = `
-            <div class="color-select-wrap" data-item-id="${it.id}">
-                <select class="form-select observacion-color-sel" data-item-id="${it.id}" required>
-                ${options}
-                </select>
-                <input type="text" class="form-control mt-2 observacion-color-otro d-none"
-                placeholder="Escriba el color o #HEX (p. ej. #7f1d1d)">
-                <div class="invalid-feedback">Selecciona un color o escribe uno en “Otro…”.</div>
-            </div>
-        `;
-
-
+            .concat('<option value="OTRO">Otroâ€¦</option>').join('');
+          observacionHtml = `
+            <div class="col-full">
+              <label class="gps-label">Color <span class="req">*</span></label>
+              <div class="color-select-wrap" data-item-id="${it.id}">
+                <select class="gps-input observacion-color-sel" data-item-id="${it.id}" required>${opts}</select>
+                <input type="text" class="gps-input mt-2 observacion-color-otro d-none" placeholder="Escriba el color (p. ej. #7f1d1d)">
+                <div class="invalid-feedback">Selecciona o escribe un color.</div>
+              </div>
+            </div>`;
         } else {
-          // Observación libre
-          observacionHtml = `<input class="form-control observacion" data-item-id="${it.id}" placeholder="Detalle">`;
+          observacionHtml = `
+            <div class="col-full">
+              <label class="gps-label">Observaciones</label>
+              <input class="gps-input observacion" data-item-id="${it.id}" placeholder="Detalleâ€¦">
+            </div>`;
         }
 
-        tr.innerHTML = `
-          <td>${it.nombre}</td>
-          <td>${estadoHtml}</td>
-          <td>${observacionHtml}</td>
-        `;
-        tbody.appendChild(tr);
+        itemDiv.innerHTML = `
+          <div class="item-insp-nombre">${it.nombre}</div>
+          <div class="item-insp-fields">
+            ${estadoHtml}
+            ${observacionHtml}
+          </div>`;
+        body.appendChild(itemDiv);
       });
 
-      body.appendChild(table);
     } else {
-      // Categoría sin items -> textarea de novedades
-      const ta = document.createElement('textarea');
-      ta.className = 'form-control';
-      ta.id = 'novedades';
-      ta.rows = 6;
-      ta.placeholder = 'Describa daños, particularidades, recomendaciones, etc.';
-      body.appendChild(ta);
+      // CategorÃ­a sin Ã­tems â†’ textarea de novedades
+      body.innerHTML = `
+        <label class="gps-label">Novedades / Observaciones</label>
+        <textarea class="gps-input" id="novedades" rows="5"
+          placeholder="Describa daÃ±os, particularidades, recomendacionesâ€¦"></textarea>`;
     }
 
     card.appendChild(body);
@@ -195,19 +191,33 @@ function renderFormulario(schema) {
   // Activa el comportamiento del select de color
   setupColorSelects();
 
-  // Botones
+  // â”€â”€ Botones de acciÃ³n â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const acciones = document.createElement('div');
-  acciones.className = 'd-flex gap-2 mt-3';
+  acciones.className = 'btns-wrap';
   acciones.innerHTML = `
-    <button id="btnGuardar" class="btn btn-primary">Guardar</button>
-    <button id="btnLimpiar" class="btn btn-outline-secondary">Limpiar</button>
-  `;
+    <button id="btnGuardar" class="gps-btn-primary">
+      <i class="bi bi-send-fill"></i>Guardar InspecciÃ³n
+    </button>
+    <button id="btnLimpiar" class="gps-btn-secondary">
+      <i class="bi bi-arrow-counterclockwise"></i>Limpiar
+    </button>`;
   cont.appendChild(acciones);
 
-  document.getElementById('btnLimpiar').onclick = () =>
-    cont.querySelectorAll('input, select, textarea').forEach(e => e.value = '');
+  // Colorear select de estado al cambiar valor
+  cont.querySelectorAll('select.gps-estado').forEach(sel => {
+    sel.addEventListener('change', () => {
+      sel.dataset.val = sel.value;
+    });
+  });
 
-  // Guardar
+  document.getElementById('btnLimpiar').onclick = () => {
+    cont.querySelectorAll('input:not([disabled]), select:not([disabled]), textarea').forEach(e => {
+      if (e.type === 'hidden') return;
+      if (e.tagName === 'SELECT') e.selectedIndex = 0;
+      else e.value = '';
+    });
+    cont.querySelectorAll('select.gps-estado').forEach(s => { delete s.dataset.val; });
+  };
   document.getElementById('btnGuardar').onclick = () => {
     const fecha     = (document.getElementById('fecha_hidden').value || '').trim();
     const tecnico   = (document.getElementById('tecnico_hidden').value || '').trim();
@@ -225,7 +235,7 @@ function renderFormulario(schema) {
       const itemId = Number(sel.dataset.itemId);
       const estado = sel.value;
 
-      // Observación por defecto (input o select normal)
+      // ObservaciÃ³n por defecto (input o select normal)
       let obsInput = document.querySelector(`.observacion[data-item-id="${itemId}"]`);
       let observaciones = obsInput ? String(obsInput.value || '').trim() : '';
 
@@ -254,13 +264,13 @@ function renderFormulario(schema) {
         nombreEl.classList.remove('is-invalid');
     }
     if (email_cliente && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email_cliente)) {
-      alert('Email inválido'); return;
+      alert('Email invÃ¡lido'); return;
     }
     if (telefono_cliente.length > 30) {
-      alert('El teléfono es demasiado largo (máx. 30)'); return;
+      alert('El telÃ©fono es demasiado largo (mÃ¡x. 30)'); return;
     }
     if (!validateColorRequired()) {
-        alert('Falta seleccionar el Color (o escribirlo si elegiste “Otro…”).');
+        alert('Falta seleccionar el Color (o escribirlo si elegiste â€œOtroâ€¦â€).');
         return;
     }
 
@@ -329,7 +339,7 @@ function validateColorRequired() {
 // --- Carga del schema ---
 async function loadSchema() {
   const container = document.getElementById('form-container');
-  container.innerHTML = '<div class="alert alert-info">Cargando formulario…</div>';
+  container.innerHTML = '<div class="alert alert-info">Cargando formularioâ€¦</div>';
   try {
     const resp = await fetch(ENDPOINT_SCHEMA, {
       method: 'POST',
@@ -342,7 +352,7 @@ async function loadSchema() {
     }
     const data = await resp.json();
     if (!data.success || !Array.isArray(data.categorias)) {
-      throw new Error(data.message || 'Respuesta inválida');
+      throw new Error(data.message || 'Respuesta invÃ¡lida');
     }
     renderFormulario(data);
   } catch (err) {
@@ -355,7 +365,7 @@ async function loadSchema() {
 }
 
 function resetFormulario(){
-  // Campos de cabecera (dejamos fecha/técnico como están)
+  // Campos de cabecera (dejamos fecha/tÃ©cnico como estÃ¡n)
   ['placa','nombre_cliente','email_cliente','telefono_cliente'].forEach(id=>{
     const el = document.getElementById(id);
     if (el) el.value = '';
@@ -365,16 +375,16 @@ function resetFormulario(){
   const nov = document.getElementById('novedades');
   if (nov) nov.value = '';
 
-  // Estados de cada ítem
+  // Estados de cada Ã­tem
   document.querySelectorAll('select.estado').forEach(sel => sel.value = '');
 
-  // Observaciones genéricas (input/select)
+  // Observaciones genÃ©ricas (input/select)
   document.querySelectorAll('.observacion').forEach(el => {
     if (el.tagName === 'SELECT') el.selectedIndex = 0;
     else el.value = '';
   });
 
-  // Ítem Color: select + "Otro"
+  // Ãtem Color: select + "Otro"
   document.querySelectorAll('.color-select-wrap').forEach(wrap => {
     const sel  = wrap.querySelector('.observacion-color-sel');
     const otro = wrap.querySelector('.observacion-color-otro');

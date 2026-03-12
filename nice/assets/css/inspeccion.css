@@ -1,150 +1,313 @@
-:root{
-  --brand:#4154f1;
-  --bg-tint:rgba(10,25,55,.55);           /* overlay más oscuro */
-  --surface:#ffffff;
-  --surface-2:#f6f9ff;
-  --ink:#1f2937;                           /* texto */
-  --muted:#6b7280;
-  --border:#d7deea;
-  --shadow:0 10px 24px rgba(2,6,23,.12), 0 2px 6px rgba(2,6,23,.08);
+﻿/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   GPS Real Time â€“ InspecciÃ³n GPS  (mobile-first, homogÃ©neo con client.html)
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+:root {
+  --gps-primary:  #0b3d91;
+  --gps-accent:   #1a73e8;
+  --gps-light:    #e8f0fe;
+  --gps-error:    #c0392b;
+  --gps-text:     #1c2b3a;
+  --gps-muted:    #6c757d;
+  --gps-border:   #c9d6e8;
+  --gps-bg:       #f0f4f8;
+  --gps-card:     #ffffff;
+  --gps-radius:   14px;
+  --gps-shadow:   0 2px 16px rgba(11,61,145,.10);
+  --input-h:      52px;
 }
 
-html,body{height:100%}
-body{
-  min-height:100vh;
-  color:var(--ink);
-  /* Imagen (ajusta la ruta si es necesario) */
-  background:
-    linear-gradient(rgba(10,25,55,.55), rgba(10,25,55,.55)), /* oscurece para que el texto resalte */
-    url('../../../img/imagen.jpg') center / cover no-repeat fixed;
-}
-@media (max-width: 768px){
-  body{ background-attachment: scroll; } /* rendimiento iOS */
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--gps-bg);
+  color: var(--gps-text);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Encabezado / marca */
-.brand-box{
-  background:linear-gradient(135deg, var(--brand), #3a8bfd);
-  color:#fff;
-  border:0;
-  box-shadow:var(--shadow);
-}
-.brand-box img{ max-height:64px }
-.brand-box .subtitle{ font-size:1.05rem; font-style:italic; opacity:.95 }
-
-/* Tarjetas/secciones */
-#form-container .card-section{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:.75rem;
-  box-shadow:var(--shadow);
-  overflow:hidden;
-}
-#form-container .card-section .card-header{
-  background:rgba(255,255,255,.06);    /* más contraste en fondo oscuro */
-  color:#eaf2ff;
-  border-bottom:1px solid rgba(255,255,255,.18);
-  font-weight:700;
+/* â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.gps-header {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: var(--gps-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+  min-height: 58px;
 }
 
-/* Tipografía y links */
-h1,h2,h3,.fw-semibold{ color:#eaf2ff }   /* títulos claros */
-a{ color:#a8c0ff }
-a:hover{ color:#c8d6ff }
-
-/* ===== Labels, ayudas y placeholders (más visibles) ===== */
-#form-container .form-label{
-  color:#eaf2ff;             /* más claro */
-  font-weight:600;
-  letter-spacing:.2px;
-  opacity:1 !important;      /* anula opacidad de Bootstrap */
-  margin-bottom:.35rem;
-}
-#form-container .form-text{
-  color:#b7c7ff;
-}
-#form-container ::placeholder{
-  color:#9fb2e9;
-  opacity:1;
+.gps-logo {
+  height: 36px;
+  width: 36px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  flex-shrink: 0;
 }
 
-/* Tabla */
-#form-container table.table{
-  border:1px solid var(--border);
-  border-radius:.5rem;
-  overflow:hidden;
-}
-#form-container table.table thead th{
-  position:sticky; top:0; z-index:1;
-  background:#eef3ff;
-  color:#0b1220;
-  font-weight:700;
-  border-bottom:1px solid var(--border);
-}
-#form-container table.table tbody tr:nth-child(odd){
-  background-color:#fbfdff;
-}
-#form-container table.table tbody tr:hover{
-  background:#f2f6ff;
+.gps-header-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
-/* Inputs / selects */
-#form-container .form-control,
-#form-container .form-select{
-  background:rgba(255,255,255,.92);
-  color:#0b1220;
-  border-color:#cdd7ee;
-}
-#form-container .form-control:focus,
-#form-container .form-select:focus{
-  box-shadow:0 0 0 .2rem rgba(65,84,241,.25);
-  border-color:#9fb0ff;
+.gps-brand {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Campos deshabilitados */
-#form-container .form-control[disabled],
-#form-container .form-select[disabled]{
-  background:#f0f3ff;
-  color:#5b687a;
-  opacity:1;
+.gps-header-sub {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,.75);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Botones */
-#form-container .btn-primary{
-  background:var(--brand); border-color:var(--brand);
-  box-shadow:0 6px 14px rgba(65,84,241,.25);
-}
-#form-container .btn-primary:hover{
-  background:#2f3cf0; border-color:#2f3cf0;
-}
-#form-container .btn-outline-secondary{
-  color:#0b1220; border-color:#cfd8ea; background:rgba(255,255,255,.6);
-}
-#form-container .btn-outline-secondary:hover{
-  background:#eef3ff; border-color:#b9c5e0;
+.gps-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
-/* Cols mínimas */
-#form-container .item-col{ min-width:280px }
-#form-container select.estado{ min-width:160px }
-
-/* Responsivo: scroll horizontal tabla en pantallas chicas */
-@media (max-width: 576px){
-  #form-container .card-section .card-body{ padding-left:.5rem; padding-right:.5rem }
-  #form-container table.table{ display:block; overflow-x:auto; white-space:nowrap }
+.gps-tecnico {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,.9);
+  display: none; /* se muestra en pantallas > 480px */
 }
 
-/* Modo oscuro (según SO) */
-@media (prefers-color-scheme: dark){
-  :root{
-    --surface:#0f172a;
-    --surface-2:#0b1220;
-    --ink:#e5e7eb;
-    --muted:#9ca3af;
-    --border:#1f2a44;
-  }
-  body{ color:var(--ink) }
-  .brand-box{ box-shadow:0 12px 28px rgba(0,0,0,.35) }
-  #form-container .btn-outline-secondary{ color:#e5e7eb; background:rgba(255,255,255,.05); border-color:#2b3757 }
-  #form-container .btn-outline-secondary:hover{ background:rgba(255,255,255,.1) }
+@media (min-width: 480px) {
+  .gps-tecnico { display: inline; }
 }
+
+.gps-logout {
+  color: rgba(255,255,255,.85);
+  font-size: 1.35rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 8px;
+  transition: background .15s;
+}
+
+.gps-logout:hover { background: rgba(255,255,255,.18); color: #fff; }
+
+/* â”€â”€ Main â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.gps-main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 20px 14px 100px;
+}
+
+/* â”€â”€ Cards de secciÃ³n â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.insp-card {
+  background: var(--gps-card);
+  border-radius: var(--gps-radius);
+  box-shadow: var(--gps-shadow);
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+
+.insp-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gps-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 11px 16px;
+  letter-spacing: .01em;
+}
+
+.insp-card-header i { font-size: 1.05rem; }
+
+.insp-card-body { padding: 18px 16px; }
+
+/* â”€â”€ Labels & inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.gps-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gps-text);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin-bottom: 5px;
+}
+
+.req { color: var(--gps-error); }
+
+.gps-input {
+  width: 100%;
+  min-height: var(--input-h);
+  padding: 0 12px;
+  font-size: 1rem;
+  color: var(--gps-text);
+  background: #f8faff;
+  border: 1.5px solid var(--gps-border);
+  border-radius: 10px;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.gps-input:focus {
+  border-color: var(--gps-accent);
+  box-shadow: 0 0 0 3px rgba(26,115,232,.15);
+  background: #fff;
+}
+
+.gps-input::placeholder { color: #aab4c4; }
+.gps-input:disabled { background: #eef2f8; color: var(--gps-muted); }
+
+select.gps-input {
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%230b3d91" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+textarea.gps-input {
+  height: auto;
+  padding: 10px 12px;
+  resize: vertical;
+}
+
+/* â”€â”€ Campos generales en grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.generales-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 420px) {
+  .generales-grid { grid-template-columns: 1fr; }
+}
+
+.generales-grid .col-full { grid-column: 1 / -1; }
+
+/* â”€â”€ Ãtem de inspecciÃ³n (card por Ã­tem, reemplaza tabla) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.item-insp {
+  border: 1.5px solid var(--gps-border);
+  border-radius: 10px;
+  padding: 14px 14px 10px;
+  margin-bottom: 12px;
+  background: #f8faff;
+}
+
+.item-insp:last-child { margin-bottom: 0; }
+
+.item-insp-nombre {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--gps-text);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.item-insp-nombre::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gps-accent);
+  flex-shrink: 0;
+}
+
+.item-insp-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 380px) {
+  .item-insp-fields { grid-template-columns: 1fr; }
+}
+
+.item-insp-fields .col-full { grid-column: 1 / -1; }
+
+/* Estado con colores segÃºn valor â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+select.gps-estado option[value="BUENO"]   { color: #1e7e34; font-weight: 600; }
+select.gps-estado option[value="REGULAR"] { color: #856404; font-weight: 600; }
+select.gps-estado option[value="MALO"]    { color: var(--gps-error); font-weight: 600; }
+
+/* Indicador de estado seleccionado */
+select.gps-estado[data-val="BUENO"]   { border-color: #28a745; background-color: #f0fff4; }
+select.gps-estado[data-val="REGULAR"] { border-color: #ffc107; background-color: #fffef0; }
+select.gps-estado[data-val="MALO"]    { border-color: var(--gps-error); background-color: #fff5f5; }
+
+/* â”€â”€ Botones â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.gps-btn-primary {
+  width: 100%;
+  height: 56px;
+  background: var(--gps-primary);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(11,61,145,.28);
+  transition: background .2s, transform .1s;
+}
+
+.gps-btn-primary:hover  { background: var(--gps-accent); }
+.gps-btn-primary:active { transform: scale(.98); }
+.gps-btn-primary:disabled { background: #9aafc8; box-shadow: none; cursor: not-allowed; }
+
+.gps-btn-secondary {
+  width: 100%;
+  height: 48px;
+  background: #fff;
+  color: var(--gps-text);
+  border: 1.5px solid var(--gps-border);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background .2s;
+}
+
+.gps-btn-secondary:hover { background: var(--gps-light); }
+
+.btns-wrap {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  margin-top: 8px;
+  align-items: center;
+}
+
+@media (max-width: 400px) {
+  .btns-wrap { grid-template-columns: 1fr; }
+  .gps-btn-secondary { height: 50px; }
+}
+
+/* â”€â”€ Bootstrap overrides mÃ­nimos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.is-invalid { border-color: var(--gps-error) !important; }
+.invalid-feedback { font-size: 0.78rem; color: var(--gps-error); margin-top: 4px; }

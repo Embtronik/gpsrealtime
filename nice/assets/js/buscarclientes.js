@@ -35,6 +35,9 @@ async function fetchPage(page) {
   const tbody = document.querySelector('#tableClientes tbody');
   tbody.innerHTML = '<tr><td colspan="46" class="text-center py-3"><div class="spinner-border spinner-border-sm"></div> Buscando...</td></tr>';
 
+  const btn = document.getElementById('btnBuscar');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Buscando...'; }
+
   try {
     const resp = await fetch('../codigo/apiBuscarClientes.php', {
       method: 'POST',
@@ -51,6 +54,8 @@ async function fetchPage(page) {
     console.error(e);
     document.querySelector('#tableClientes tbody').innerHTML =
       `<tr><td colspan="46" class="text-center text-danger">${escHtml(e.message)}</td></tr>`;
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = 'Buscar'; }
   }
 }
 

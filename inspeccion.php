@@ -3,46 +3,41 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>Inspección Instalación GPS</title>
+  <title>GPS Real Time – Inspección GPS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="/img/logo_32x32.png" sizes="32x32">
-  <link rel="shortcut icon" type="image/png" href="/img/logo_32x32.png">
   <link rel="apple-touch-icon" href="/img/logo_32x32.png">
-  <meta name="theme-color" content="#4154f1">
-
+  <meta name="theme-color" content="#0b3d91">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
   <link href="nice/assets/css/inspeccion.css" rel="stylesheet"/>
 </head>
 
 <body>
-  <div class="container py-4">
-    <!-- Encabezado -->
-    <div class="brand-box rounded-3 p-3 mb-3">
-      <div class="d-flex align-items-center justify-content-between flex-wrap">
-        <div class="d-flex align-items-center gap-3">
-          <img src="https://dummyimage.com/600x140/ffffff/000000&text=GPS+Real+Time" class="img-fluid" alt="Banner" style="max-height:64px">
-          <div class="subtitle mt-2">Formulario de Inspección de Instalación GPS</div>
-        </div>
-        <div class="d-flex align-items-center gap-2">
-          <span class="badge bg-dark text-wrap">
-            Técnico: <?php echo htmlspecialchars($tecnicoNombre, ENT_QUOTES, 'UTF-8'); ?>
-          </span>
-          <a class="btn btn-outline-light btn-sm" href="logout.php">Cerrar sesión</a>
-        </div>
+
+  <!-- Header fijo igual que client.html -->
+  <header class="gps-header">
+    <img src="./img/logo.png" alt="GPS Real Time" class="gps-logo">
+    <div class="gps-header-center">
+      <span class="gps-brand">GPS Real Time</span>
+      <span class="gps-header-sub">Inspección de Instalación</span>
+    </div>
+    <div class="gps-header-right">
+      <span class="gps-tecnico"><i class="bi bi-person-fill me-1"></i><?php echo htmlspecialchars($tecnicoNombre, ENT_QUOTES, 'UTF-8'); ?></span>
+      <a href="logout.php" class="gps-logout" title="Cerrar sesión"><i class="bi bi-box-arrow-right"></i></a>
+    </div>
+  </header>
+
+  <main class="gps-main">
+    <div id="form-container">
+      <div class="text-center py-5 text-muted">
+        <div class="spinner-border text-primary mb-2" role="status"></div>
+        <p class="mb-0">Cargando formulario…</p>
       </div>
     </div>
-
-    <!-- Contenedor del formulario dinámico -->
-    <div id="form-container">
-      <div class="alert alert-info">Cargando formulario…</div>
-    </div>
-  </div>
+  </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Config que necesita el JS externo -->
   <script>
     window.APP = {
       ENDPOINT_SCHEMA: 'codigo/get_form_schema.php',
