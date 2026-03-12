@@ -989,7 +989,7 @@ BEGIN
     FROM tareaCliente tc
     INNER JOIN usuario cl ON tc.cliente_idusuario = cl.idusuario
     INNER JOIN usuario fn ON tc.funcionario_idusuario = fn.idusuario
-    LEFT JOIN p_canalcomercial cc ON tc.p_canalComercial_id = cc.id
+    LEFT JOIN p_canalComercial cc ON tc.p_canalComercial_id = cc.id
     LEFT JOIN p_resultado r ON tc.p_resultado_idp_resultado = r.idp_resultado
     WHERE tc.cliente_idusuario = cliente_idusuario_param
       AND tc.servicio_idservicio = servicio_idservicio_param
@@ -1136,6 +1136,28 @@ BEGIN
     UPDATE serviciosparausuario
     SET estadoRegistro = 0, fechaRegistro = NOW()
     WHERE servicio_idservicio = servicio_id;
+END //
+
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS ObtenerTodosCanalesComerciales;
+
+DELIMITER //
+
+CREATE PROCEDURE ObtenerTodosCanalesComerciales()
+BEGIN
+    SELECT * FROM p_canalComercial WHERE estadoRegistro = 1;
+END //
+
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS ObtenerResultados;
+
+DELIMITER //
+
+CREATE PROCEDURE ObtenerResultados()
+BEGIN
+    SELECT * FROM p_resultado WHERE estadoRegistro = 1;
 END //
 
 DELIMITER ;

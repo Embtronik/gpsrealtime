@@ -71,7 +71,9 @@ sp_InsertarTercero
 sp_ActualizarTercero
 sp_DesactivarTercero
 sp_BuscarTerceroPorIDs
-sp_delete_servicioparausuario"
+sp_delete_servicioparausuario
+ObtenerTodosCanalesComerciales
+ObtenerResultados"
 
 MISSING=0
 for SP in $EXPECTED_SPS; do
