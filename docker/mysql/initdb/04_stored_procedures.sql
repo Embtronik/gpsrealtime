@@ -1161,3 +1161,30 @@ BEGIN
 END //
 
 DELIMITER ;
+
+-- ── Métricas: servicios por mes en un rango de fechas ─────────────────────────
+DROP PROCEDURE IF EXISTS sp_MetricasServiciosPorMes;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_MetricasServiciosPorMes(
+    IN p_fechaDesde DATE,
+    IN p_fechaHasta DATE
+)
+BEGIN
+    SELECT
+        YEAR(s.fechaInicioFormulario)  AS anio,
+        MONTH(s.fechaInicioFormulario) AS mes,
+        ts.descripcion                 AS tipoServicio,
+        COUNT(DISTINCT s.idservicio)   AS total
+    FROM servicio s
+    INNER JOIN p_tiposervicio ts ON s.p_tipoServicio_idp_tipoServicio = ts.idp_tipoServicio
+    INNER JOIN serviciosparausuario spu ON spu.servicio_idservicio = s.idservicio AND spu.estadoRegistro = 1
+    INNER JOIN usuariorol ur ON ur.usuario_idusuario = spu.usuario_idusuario AND ur.p_rol_idp_rol = 2
+    WHERE s.fechaInicioFormulario BETWEEN p_fechaDesde AND p_fechaHasta
+      AND s.vehiculo_idvehiculo IS NOT NULL
+    GROUP BY anio, mes, ts.descripcion
+    ORDER BY anio, mes, ts.descripcion;
+END //
+
+DELIMITER ;

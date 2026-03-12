@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>GPS Real Time - Métricas</title>
+
+  <!-- Favicons -->
+  <link href="../img/logo.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+
+  <!-- ApexCharts -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="../img/logo.png" alt="">
+        <span class="d-none d-lg-block">GPS Real Time</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div>
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+        <li class="nav-item dropdown pe-3">
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="../img/logo.png" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2" id="perfil"></span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6 id="user-name"></h6>
+              <span id="rol"></span>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#" id="sign-out-button">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link" href="index.html">
+          <i class="bi bi-grid"></i>
+          <span>Principal</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Administración</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li><a href="comercial.html"><i class="bi bi-circle"></i><span>Comercial</span></a></li>
+          <li><a href="comoseentero.html"><i class="bi bi-circle"></i><span>Como se enteró</span></a></li>
+          <li><a href="metodopago.html"><i class="bi bi-circle"></i><span>Método de Pago</span></a></li>
+          <li><a href="servicios.html"><i class="bi bi-circle"></i><span>Servicio</span></a></li>
+        </ul>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="registro.html">
+          <i class="bi bi-card-list"></i><span>Registrar Usuario</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="usuarios.html">
+          <i class="bi bi-people"></i><span>Gestión Usuarios</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="buscar.html">
+          <i class="bi bi-card-list"></i><span>Buscar Cliente</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="metricas.html">
+          <i class="bi bi-bar-chart-line"></i><span>Métricas</span>
+        </a>
+      </li>
+
+    </ul>
+  </aside><!-- End Sidebar -->
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Métricas de Servicios</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">Métricas</li>
+        </ol>
+      </nav>
+    </div>
+
+    <section class="section">
+
+      <!-- Filtros -->
+      <div class="card">
+        <div class="card-body pt-3">
+          <h5 class="card-title">Rango de Fechas</h5>
+          <div class="row g-3 align-items-end">
+            <div class="col-md-3">
+              <label class="form-label">Año anterior — Desde</label>
+              <input type="date" class="form-control" id="fechaDesdeA">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Año anterior — Hasta</label>
+              <input type="date" class="form-control" id="fechaHastaA">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Año actual — Desde</label>
+              <input type="date" class="form-control" id="fechaDesdeB">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Año actual — Hasta</label>
+              <input type="date" class="form-control" id="fechaHastaB">
+            </div>
+            <div class="col-12">
+              <button class="btn btn-primary" id="btnConsultar">
+                <i class="bi bi-bar-chart me-1"></i> Consultar
+              </button>
+              <span id="loadingSpinner" class="ms-3 d-none">
+                <span class="spinner-border spinner-border-sm" role="status"></span> Cargando...
+              </span>
+              <span id="sinDatos" class="ms-3 text-muted d-none">Sin datos para el rango seleccionado.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráfica de líneas: servicios por mes -->
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Servicios por Mes <span class="text-muted fs-6" id="lineSubtitle"></span></h5>
+          <div id="lineChart"></div>
+        </div>
+      </div>
+
+      <!-- Gráficas de torta: una por período -->
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Distribución por Tipo <span class="text-muted fs-6" id="pieSubtitleA"></span></h5>
+              <div id="pieChartA"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Distribución por Tipo <span class="text-muted fs-6" id="pieSubtitleB"></span></h5>
+              <div id="pieChartB"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla resumen -->
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Resumen por Tipo de Servicio</h5>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle" id="tablaResumen">
+              <thead class="table-light">
+                <tr>
+                  <th>Tipo de Servicio</th>
+                  <th id="colPeriodoA" class="text-center">Período A</th>
+                  <th id="colPeriodoB" class="text-center">Período B</th>
+                  <th class="text-center">Variación</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyResumen">
+                <tr><td colspan="4" class="text-center text-muted">Consulte un rango de fechas para ver datos.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main><!-- End Main -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+  </a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+  <!-- Page JS -->
+  <script src="assets/js/metricas.js"></script>
+
+</body>
+</html>
