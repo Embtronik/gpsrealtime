@@ -59,13 +59,13 @@
   <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
       <li class="nav-item">
-        <a class="nav-link collapsed" href="supervisor.html">
+        <a class="nav-link collapsed" id="link-principal" href="supervisor.html">
           <i class="bi bi-grid"></i>
           <span>Principal</span>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="buscarsupervisor.html">
+      <li class="nav-item" id="nav-buscar">
+        <a class="nav-link collapsed" id="link-buscar" href="buscarsupervisor.html">
           <i class="bi bi-search"></i>
           <span>Buscar Clientes</span>
         </a>
@@ -84,7 +84,7 @@
       <h1>Inspecciones GPS</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="supervisor.html">Inicio</a></li>
+          <li class="breadcrumb-item"><a href="supervisor.html" id="breadcrumb-inicio">Inicio</a></li>
           <li class="breadcrumb-item active">Inspecciones GPS</li>
         </ol>
       </nav>
@@ -189,6 +189,21 @@
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="assets/js/menu.js"></script>
+  <script>
+    // Adaptar sidebar y breadcrumb según el rol del usuario
+    (function () {
+      const ud = JSON.parse(localStorage.getItem('userData') || 'null');
+      if (!ud) return;
+      const rol = parseInt(ud.rol_usuario, 10);
+      if (rol === 3) {
+        // Auxiliar
+        document.getElementById('link-principal').href = 'auxiliar.html';
+        document.getElementById('link-buscar').href    = 'buscaraux.html';
+        document.getElementById('breadcrumb-inicio').href = 'auxiliar.html';
+      }
+      // rol=5 (Supervisor) ya tiene los hrefs correctos; rol=1 (Admin) raro pero se deja igual
+    })();
+  </script>
   <script src="assets/js/inspecciones.js"></script>
 </body>
 </html>

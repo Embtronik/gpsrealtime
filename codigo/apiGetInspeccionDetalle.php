@@ -3,8 +3,8 @@ require_once __DIR__ . '/api_guard.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
-// Admin (1), Supervisor (5) pueden ver cualquier inspección
-$allowedRoles = [1, 5];
+// Admin (1), Auxiliar (3) y Supervisor (5) pueden ver inspecciones
+$allowedRoles = [1, 3, 5];
 if (!in_array((int)$_SESSION['rol_usuario'], $allowedRoles, true)) {
     http_response_code(403);
     echo json_encode(['success' => false, 'message' => 'Acceso denegado']);
