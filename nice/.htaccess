@@ -14,7 +14,7 @@ AddHandler application/x-httpd-php .html
 
 # Auto-prepend el guard a todos los archivos PHP/HTML de este directorio
 # AJUSTA esta ruta si cambia la ubicación de la instalación
-php_value auto_prepend_file "C:/xampp/htdocs/gpsrealtime/nice/guard.php"
+php_value auto_prepend_file "guard.php"
 
 # Encabezados de seguridad HTTP
 <IfModule mod_headers.c>
