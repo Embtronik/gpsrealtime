@@ -186,32 +186,47 @@
 
   </main><!-- End #main -->
 
-  <!-- ======= Modal Cambiar Contraseña ======= -->
-  <div class="modal fade" id="modalPassword" tabindex="-1" aria-labelledby="modalPasswordLabel" aria-hidden="true">
+  <!-- ======= Modal Editar Usuario ======= -->
+  <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalPasswordLabel">Cambiar Contraseña</h5>
+          <h5 class="modal-title" id="modalEditarLabel">Editar Usuario</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
         <div class="modal-body">
-          <p class="mb-3">Usuario: <strong id="modalPasswordUsername"></strong></p>
-          <input type="hidden" id="modalCredId">
+          <input type="hidden" id="editarIdUsuario">
+          <input type="hidden" id="editarIdCredencial">
+          <p class="mb-3 text-muted small">Usuario: <strong id="editarUsernameLabel"></strong></p>
           <div class="mb-3">
-            <label for="inputNewPassword" class="form-label">Nueva Contraseña</label>
-            <input type="password" class="form-control" id="inputNewPassword"
+            <label for="editarNombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="editarNombre" autocomplete="off">
+          </div>
+          <div class="mb-3">
+            <label for="editarEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="editarEmail" autocomplete="off">
+          </div>
+          <div class="mb-3">
+            <label for="editarRolSelect" class="form-label">Rol</label>
+            <select class="form-select" id="editarRolSelect"></select>
+          </div>
+          <hr>
+          <p class="text-muted small mb-2">Dejar en blanco para no cambiar la contraseña</p>
+          <div class="mb-3">
+            <label for="editarNuevaPassword" class="form-label">Nueva Contraseña</label>
+            <input type="password" class="form-control" id="editarNuevaPassword"
                    placeholder="Mínimo 8 caracteres" autocomplete="new-password">
           </div>
           <div class="mb-3">
-            <label for="inputConfirmPassword" class="form-label">Confirmar Contraseña</label>
-            <input type="password" class="form-control" id="inputConfirmPassword"
+            <label for="editarConfirmPassword" class="form-label">Confirmar Contraseña</label>
+            <input type="password" class="form-control" id="editarConfirmPassword"
                    placeholder="Repita la contraseña" autocomplete="new-password">
           </div>
-          <div id="passwordError" class="text-danger small d-none"></div>
+          <div id="editarError" class="text-danger small d-none"></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary" id="btnGuardarPassword">Guardar</button>
+          <button type="button" class="btn btn-primary" id="btnGuardarEdicion">Guardar</button>
         </div>
       </div>
     </div>

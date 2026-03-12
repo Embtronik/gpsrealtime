@@ -32,7 +32,38 @@ BEGIN
   ) subrol ON subrol.usuario_idusuario = u.idusuario
   LEFT JOIN p_rol r ON r.idp_rol = subrol.p_rol_idp_rol
   WHERE uc.estadoRegistro = 1
+    AND (subrol.p_rol_idp_rol IS NULL OR subrol.p_rol_idp_rol != 2)
   ORDER BY u.nombre;
+END //
+
+-- ----------------------------------------------------------
+-- SP_ActualizarUsuario
+-- Edita nombre, email, rol y opcionalmente la contraseña
+-- ----------------------------------------------------------
+DROP PROCEDURE IF EXISTS SP_ActualizarUsuario //
+CREATE PROCEDURE SP_ActualizarUsuario(
+  IN p_idusuario             INT,
+  IN p_idusuarioCredenciales INT,
+  IN p_nombre                VARCHAR(255),
+  IN p_email                 VARCHAR(255),
+  IN p_id_rol                INT,
+  IN p_newPasswordHash       VARCHAR(255)
+)
+BEGIN
+  UPDATE usuario
+  SET    nombre = p_nombre,
+         email  = p_email
+  WHERE  idusuario = p_idusuario;
+
+  IF p_newPasswordHash IS NOT NULL AND p_newPasswordHash != '' THEN
+    UPDATE usuarioCredenciales
+    SET    password = p_newPasswordHash
+    WHERE  idusuarioCredenciales = p_idusuarioCredenciales;
+  END IF;
+
+  DELETE FROM usuariorol WHERE usuario_idusuario = p_idusuario;
+  INSERT INTO usuariorol (usuario_idusuario, p_rol_idp_rol)
+  VALUES (p_idusuario, p_id_rol);
 END //
 
 -- ----------------------------------------------------------
