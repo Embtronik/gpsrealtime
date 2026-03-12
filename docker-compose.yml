@@ -60,7 +60,7 @@ services:
       - ./docker/mysql/initdb:/migrations:ro
       - ./docker/mysql/migrate.sh:/migrate.sh:ro
     command: sh /migrate.sh
-    restart: on-failure
+    restart: "no"
 
 volumes:
   mysql_data:
