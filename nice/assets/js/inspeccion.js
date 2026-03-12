@@ -1,16 +1,16 @@
-﻿// assets/js/inspeccion.js
+// assets/js/inspeccion.js
 
 // Config del servidor (inyectada en la vista inspeccion.php)
 const { ENDPOINT_SCHEMA, SESSION_USER } = window.APP || {};
 
-// --- Opciones especiales para algunos Ã­tems ---
+// --- Opciones especiales para algunos ítems ---
 const OPCIONES_UBICACION = [
   'paral izquierdo','parar derecho','silla conductor','silla copiloto',
   'techo','posa pie','palanca de cambios','silla trasera combustible','parte delantera motor'
 ];
 const OPCIONES_ENERGIA = ['Corte de corriente','Corte de combustible','Sin corte'];
 
-// Paleta de colores (para el select del Ã­tem Color)
+// Paleta de colores (para el select del ítem Color)
 const COLOR_OPTIONS = [
   'Blanco','Negro','Gris','Rojo','Azul','Verde','Amarillo','Naranja','Plateado','Beige'
 ];
@@ -24,8 +24,8 @@ function hoyLocalYYYYMMDD() {
   return `${y}-${m}-${day}`;
 }
 function normalize(str){return (str||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
-function esItemUbicacion(n){return normalize(n)===normalize('UbicaciÃ³n del GPS segura y discreta');}
-function esItemEnergia(n){return normalize(n)===normalize('Donde Toma EnergÃ­a para GPS');}
+function esItemUbicacion(n){return normalize(n)===normalize('Ubicación del GPS segura y discreta');}
+function esItemEnergia(n){return normalize(n)===normalize('Donde Toma Energía para GPS');}
 function esItemColor(n){return normalize(n)===normalize('Color');}
 
 // Inicializa el comportamiento del select de color (mostrar input "Otro...")
@@ -35,7 +35,7 @@ function setupColorSelects(){
     const otro = wrap.querySelector('.observacion-color-otro');
     if (!sel || !otro) return;
 
-    // Estado inicial: ocultar input si no estÃ¡ "OTRO"
+    // Estado inicial: ocultar input si no está "OTRO"
     if (sel.value !== 'OTRO') otro.classList.add('d-none');
 
     sel.addEventListener('change', () => {
@@ -57,7 +57,7 @@ function renderFormulario(schema) {
 
   const fechaHoy = hoyLocalYYYYMMDD();
 
-  // â”€â”€ SecciÃ³n: datos generales â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // �"?�"? Sección: datos generales �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
   const cardGen = document.createElement('div');
   cardGen.className = 'insp-card';
   cardGen.innerHTML = `
@@ -73,7 +73,7 @@ function renderFormulario(schema) {
           <input type="hidden" id="fecha_hidden" value="${fechaHoy}">
         </div>
         <div>
-          <label class="gps-label">TÃ©cnico</label>
+          <label class="gps-label">Técnico</label>
           <input type="text" id="tecnico" class="gps-input" value="${SESSION_USER?.nombre || ''}" disabled>
           <input type="hidden" id="tecnico_hidden" value="${SESSION_USER?.nombre || ''}">
           <input type="hidden" id="user_id_hidden" value="${SESSION_USER?.user_id || 0}">
@@ -83,7 +83,7 @@ function renderFormulario(schema) {
           <input type="text" id="placa" class="gps-input" placeholder="ABC123" style="text-transform:uppercase;letter-spacing:.08em;font-weight:600">
         </div>
         <div>
-          <label class="gps-label">TelÃ©fono cliente</label>
+          <label class="gps-label">Teléfono cliente</label>
           <input type="tel" id="telefono_cliente" class="gps-input" inputmode="tel" placeholder="+57 311 123 4567">
         </div>
         <div class="col-full">
@@ -98,7 +98,7 @@ function renderFormulario(schema) {
     </div>`;
   cont.appendChild(cardGen);
 
-  // â”€â”€ Secciones por categorÃ­a â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // �"?�"? Secciones por categoría �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
   schema.categorias.forEach(cat => {
     const card = document.createElement('div');
     card.className = 'insp-card';
@@ -120,36 +120,36 @@ function renderFormulario(schema) {
           <div>
             <label class="gps-label">Estado</label>
             <select class="gps-input gps-estado estado" data-item-id="${it.id}" required>
-              <option value="">Seleccioneâ€¦</option>
-              <option value="BUENO">âœ” BUENO</option>
+              <option value="">Seleccione�?�</option>
+              <option value="BUENO">�o" BUENO</option>
               <option value="REGULAR">~ REGULAR</option>
-              <option value="MALO">âœ– MALO</option>
+              <option value="MALO">�o- MALO</option>
               <option value="NA">N/A</option>
             </select>
           </div>`;
 
-        // ObservaciÃ³n segÃºn el Ã­tem
+        // Observación según el ítem
         let observacionHtml;
         if (esItemUbicacion(it.nombre)) {
-          const opts = ['<option value="">Seleccione ubicaciÃ³nâ€¦</option>']
+          const opts = ['<option value="">Seleccione ubicación�?�</option>']
             .concat(OPCIONES_UBICACION.map(o => `<option value="${o}">${o}</option>`)).join('');
           observacionHtml = `
             <div class="col-full">
-              <label class="gps-label">UbicaciÃ³n</label>
+              <label class="gps-label">Ubicación</label>
               <select class="gps-input observacion" data-item-id="${it.id}">${opts}</select>
             </div>`;
         } else if (esItemEnergia(it.nombre)) {
-          const opts = ['<option value="">Seleccione fuenteâ€¦</option>']
+          const opts = ['<option value="">Seleccione fuente�?�</option>']
             .concat(OPCIONES_ENERGIA.map(o => `<option value="${o}">${o}</option>`)).join('');
           observacionHtml = `
             <div class="col-full">
-              <label class="gps-label">Fuente de energÃ­a</label>
+              <label class="gps-label">Fuente de energía</label>
               <select class="gps-input observacion" data-item-id="${it.id}">${opts}</select>
             </div>`;
         } else if (esItemColor(it.nombre)) {
-          const opts = ['<option value="">Seleccione colorâ€¦</option>']
+          const opts = ['<option value="">Seleccione color�?�</option>']
             .concat(COLOR_OPTIONS.map(n => `<option value="${n}">${n}</option>`))
-            .concat('<option value="OTRO">Otroâ€¦</option>').join('');
+            .concat('<option value="OTRO">Otro�?�</option>').join('');
           observacionHtml = `
             <div class="col-full">
               <label class="gps-label">Color <span class="req">*</span></label>
@@ -163,7 +163,7 @@ function renderFormulario(schema) {
           observacionHtml = `
             <div class="col-full">
               <label class="gps-label">Observaciones</label>
-              <input class="gps-input observacion" data-item-id="${it.id}" placeholder="Detalleâ€¦">
+              <input class="gps-input observacion" data-item-id="${it.id}" placeholder="Detalle�?�">
             </div>`;
         }
 
@@ -177,11 +177,11 @@ function renderFormulario(schema) {
       });
 
     } else {
-      // CategorÃ­a sin Ã­tems â†’ textarea de novedades
+      // Categoría sin ítems �?' textarea de novedades
       body.innerHTML = `
         <label class="gps-label">Novedades / Observaciones</label>
         <textarea class="gps-input" id="novedades" rows="5"
-          placeholder="Describa daÃ±os, particularidades, recomendacionesâ€¦"></textarea>`;
+          placeholder="Describa daños, particularidades, recomendaciones�?�"></textarea>`;
     }
 
     card.appendChild(body);
@@ -191,12 +191,12 @@ function renderFormulario(schema) {
   // Activa el comportamiento del select de color
   setupColorSelects();
 
-  // â”€â”€ Botones de acciÃ³n â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // �"?�"? Botones de acción �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
   const acciones = document.createElement('div');
   acciones.className = 'btns-wrap';
   acciones.innerHTML = `
     <button id="btnGuardar" class="gps-btn-primary">
-      <i class="bi bi-send-fill"></i>Guardar InspecciÃ³n
+      <i class="bi bi-send-fill"></i>Guardar Inspección
     </button>
     <button id="btnLimpiar" class="gps-btn-secondary">
       <i class="bi bi-arrow-counterclockwise"></i>Limpiar
@@ -235,7 +235,7 @@ function renderFormulario(schema) {
       const itemId = Number(sel.dataset.itemId);
       const estado = sel.value;
 
-      // ObservaciÃ³n por defecto (input o select normal)
+      // Observación por defecto (input o select normal)
       let obsInput = document.querySelector(`.observacion[data-item-id="${itemId}"]`);
       let observaciones = obsInput ? String(obsInput.value || '').trim() : '';
 
@@ -264,13 +264,13 @@ function renderFormulario(schema) {
         nombreEl.classList.remove('is-invalid');
     }
     if (email_cliente && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email_cliente)) {
-      alert('Email invÃ¡lido'); return;
+      alert('Email inválido'); return;
     }
     if (telefono_cliente.length > 30) {
-      alert('El telÃ©fono es demasiado largo (mÃ¡x. 30)'); return;
+      alert('El teléfono es demasiado largo (máx. 30)'); return;
     }
     if (!validateColorRequired()) {
-        alert('Falta seleccionar el Color (o escribirlo si elegiste â€œOtroâ€¦â€).');
+        alert('Falta seleccionar el Color (o escribirlo si elegiste �?oOtro�?��?�).');
         return;
     }
 
@@ -339,7 +339,7 @@ function validateColorRequired() {
 // --- Carga del schema ---
 async function loadSchema() {
   const container = document.getElementById('form-container');
-  container.innerHTML = '<div class="alert alert-info">Cargando formularioâ€¦</div>';
+  container.innerHTML = '<div class="alert alert-info">Cargando formulario�?�</div>';
   try {
     const resp = await fetch(ENDPOINT_SCHEMA, {
       method: 'POST',
@@ -352,7 +352,7 @@ async function loadSchema() {
     }
     const data = await resp.json();
     if (!data.success || !Array.isArray(data.categorias)) {
-      throw new Error(data.message || 'Respuesta invÃ¡lida');
+      throw new Error(data.message || 'Respuesta inválida');
     }
     renderFormulario(data);
   } catch (err) {
@@ -365,7 +365,7 @@ async function loadSchema() {
 }
 
 function resetFormulario(){
-  // Campos de cabecera (dejamos fecha/tÃ©cnico como estÃ¡n)
+  // Campos de cabecera (dejamos fecha/técnico como están)
   ['placa','nombre_cliente','email_cliente','telefono_cliente'].forEach(id=>{
     const el = document.getElementById(id);
     if (el) el.value = '';
@@ -375,16 +375,16 @@ function resetFormulario(){
   const nov = document.getElementById('novedades');
   if (nov) nov.value = '';
 
-  // Estados de cada Ã­tem
+  // Estados de cada ítem
   document.querySelectorAll('select.estado').forEach(sel => sel.value = '');
 
-  // Observaciones genÃ©ricas (input/select)
+  // Observaciones genéricas (input/select)
   document.querySelectorAll('.observacion').forEach(el => {
     if (el.tagName === 'SELECT') el.selectedIndex = 0;
     else el.value = '';
   });
 
-  // Ãtem Color: select + "Otro"
+  // Ítem Color: select + "Otro"
   document.querySelectorAll('.color-select-wrap').forEach(wrap => {
     const sel  = wrap.querySelector('.observacion-color-sel');
     const otro = wrap.querySelector('.observacion-color-otro');
