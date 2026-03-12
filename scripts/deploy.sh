@@ -23,8 +23,10 @@ git pull
 echo ""
 echo "=== [2/2] docker compose up --build ==="
 if [ "$MODE" = "--dev" ]; then
+  docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate migrate
   docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 else
+  docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build --force-recreate migrate
   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 fi
 
