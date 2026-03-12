@@ -4,7 +4,7 @@ backup/
 # 01_restore.sql se sube al repo privado para seed automático en producción
 
 # Variables de entorno — nunca subir al repositorio
-.env
+#.env
 
 # XAMPP / OS
 *.DS_Store
