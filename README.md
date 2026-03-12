@@ -114,7 +114,7 @@ Levanta solo los servicios `app` y `db`, sin Caddy:
 cp .env.example .env
 # Edita .env con tus credenciales locales
 
-docker compose up -d --build
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 
 # Ver logs en tiempo real
 docker compose logs -f

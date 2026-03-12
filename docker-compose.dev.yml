@@ -1,0 +1,11 @@
+# Desarrollo local — expone app en puerto 80 directamente (sin Caddy)
+#
+# Uso:
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+#
+# Acceso: http://localhost
+
+services:
+  app:
+    ports:
+      - "80:80"

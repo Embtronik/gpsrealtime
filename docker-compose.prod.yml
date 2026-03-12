@@ -8,9 +8,9 @@
 
 services:
 
-  # ── app: quitar exposición directa; Caddy es el punto de entrada ──
+  # ── app: accesible solo dentro de la red Docker; Caddy hace el proxy ───────
   app:
-    ports: []
+    restart: always
 
   # ── Caddy: reverse proxy + HTTPS automático (Let's Encrypt) ──────
   caddy:

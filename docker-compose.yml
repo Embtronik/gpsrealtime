@@ -4,8 +4,8 @@ services:
   app:
     build: .
     container_name: gpsrealtime_app
-    ports:
-      - "80:80"
+    # Sin puertos expuestos en base — en desarrollo usa docker-compose.dev.yml
+    # En producción Caddy es el único punto de entrada (docker-compose.prod.yml)
     env_file: .env
     environment:
       TZ: America/Bogota
