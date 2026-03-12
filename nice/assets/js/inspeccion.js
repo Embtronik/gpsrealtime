@@ -120,10 +120,10 @@ function renderFormulario(schema) {
           <div>
             <label class="gps-label">Estado</label>
             <select class="gps-input gps-estado estado" data-item-id="${it.id}" required>
-              <option value="">Seleccione�?�</option>
-              <option value="BUENO">�o" BUENO</option>
+              <option value="">Seleccione...</option>
+              <option value="BUENO">&#10004; BUENO</option>
               <option value="REGULAR">~ REGULAR</option>
-              <option value="MALO">�o- MALO</option>
+              <option value="MALO">&#10008; MALO</option>
               <option value="NA">N/A</option>
             </select>
           </div>`;
@@ -131,7 +131,7 @@ function renderFormulario(schema) {
         // Observación según el ítem
         let observacionHtml;
         if (esItemUbicacion(it.nombre)) {
-          const opts = ['<option value="">Seleccione ubicación�?�</option>']
+          const opts = ['<option value="">Seleccione...</option>']
             .concat(OPCIONES_UBICACION.map(o => `<option value="${o}">${o}</option>`)).join('');
           observacionHtml = `
             <div class="col-full">
@@ -139,7 +139,7 @@ function renderFormulario(schema) {
               <select class="gps-input observacion" data-item-id="${it.id}">${opts}</select>
             </div>`;
         } else if (esItemEnergia(it.nombre)) {
-          const opts = ['<option value="">Seleccione fuente�?�</option>']
+          const opts = ['<option value="">Seleccione...</option>']
             .concat(OPCIONES_ENERGIA.map(o => `<option value="${o}">${o}</option>`)).join('');
           observacionHtml = `
             <div class="col-full">
@@ -147,9 +147,9 @@ function renderFormulario(schema) {
               <select class="gps-input observacion" data-item-id="${it.id}">${opts}</select>
             </div>`;
         } else if (esItemColor(it.nombre)) {
-          const opts = ['<option value="">Seleccione color�?�</option>']
+          const opts = ['<option value="">Seleccione...</option>']
             .concat(COLOR_OPTIONS.map(n => `<option value="${n}">${n}</option>`))
-            .concat('<option value="OTRO">Otro�?�</option>').join('');
+            .concat('<option value="OTRO">Otro...</option>').join('');
           observacionHtml = `
             <div class="col-full">
               <label class="gps-label">Color <span class="req">*</span></label>
@@ -163,7 +163,7 @@ function renderFormulario(schema) {
           observacionHtml = `
             <div class="col-full">
               <label class="gps-label">Observaciones</label>
-              <input class="gps-input observacion" data-item-id="${it.id}" placeholder="Detalle�?�">
+              <input class="gps-input observacion" data-item-id="${it.id}" placeholder="Detalle...">
             </div>`;
         }
 

@@ -5,8 +5,8 @@
   <meta charset="utf-8" />
   <title>GPS Real Time – Inspección GPS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/png" href="/img/logo_32x32.png" sizes="32x32">
-  <link rel="apple-touch-icon" href="/img/logo_32x32.png">
+  <link rel="icon" type="image/png" href="./img/logo_32x32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="./img/logo_32x32.png">
   <meta name="theme-color" content="#0b3d91">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
