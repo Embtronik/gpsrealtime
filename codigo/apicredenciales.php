@@ -146,7 +146,10 @@ try {
     echo json_encode(array_merge(['success' => true], $out), JSON_UNESCAPED_UNICODE);
 
 } catch (Throwable $t) {
-    error_log('apicredenciales error: ' . $t->getMessage());
+    error_log('apicredenciales error: ' . $t->getMessage() . ' line ' . $t->getLine());
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Error interno del servidor']);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Error interno del servidor'
+    ]);
 }
