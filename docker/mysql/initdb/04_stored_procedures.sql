@@ -147,11 +147,16 @@ BEGIN
   LEFT JOIN (
     SELECT usuario_idusuario, MIN(p_rol_idp_rol) AS p_rol_idp_rol
     FROM usuariorol
+    WHERE p_rol_idp_rol NOT IN (2)
     GROUP BY usuario_idusuario
   ) subrol ON subrol.usuario_idusuario = u.idusuario
   LEFT JOIN p_rol r ON r.idp_rol = subrol.p_rol_idp_rol
   WHERE uc.estadoRegistro = 1
-    AND (subrol.p_rol_idp_rol IS NULL OR subrol.p_rol_idp_rol != 2)
+    AND EXISTS (
+        SELECT 1 FROM usuariorol
+        WHERE usuario_idusuario = u.idusuario
+          AND p_rol_idp_rol != 2
+    )
   ORDER BY u.nombre;
 END //
 
