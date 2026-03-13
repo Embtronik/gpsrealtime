@@ -13,8 +13,9 @@
 AddHandler application/x-httpd-php .html
 
 # Auto-prepend el guard a todos los archivos PHP/HTML de este directorio
-# Ruta absoluta del contenedor Docker (no afecta al PHP CLI, solo a Apache)
-php_value auto_prepend_file "/var/www/html/nice/guard.php"
+# Ruta relativa: PHP la resuelve desde el directorio del script en ejecución,
+# por lo que funciona igual en Docker (/var/www/html/nice/) y en XAMPP Windows.
+php_value auto_prepend_file "guard.php"
 
 # Encabezados de seguridad HTTP
 <IfModule mod_headers.c>
