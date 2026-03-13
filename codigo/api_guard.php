@@ -10,7 +10,16 @@
  *  - apiRecibeWA.php      → webhook Meta/WhatsApp (autenticación por token propio)
  */
 
-$_GUARD_EXEMPT = ['apicredenciales.php', 'apiRecibeWA.php'];
+// Endpoints públicos: usados por client.html (formulario de registro sin sesión)
+$_GUARD_PUBLIC = [
+    'apitiposervicio.php',
+    'apitipoidentificacion.php',
+    'apimetodopago.php',
+    'apicomercial.php',
+    'apicomoseentero.php',
+];
+
+$_GUARD_EXEMPT = array_merge(['apicredenciales.php', 'apiRecibeWA.php'], $_GUARD_PUBLIC);
 
 if (!in_array(basename($_SERVER['SCRIPT_FILENAME']), $_GUARD_EXEMPT, true)) {
 
