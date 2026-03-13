@@ -711,16 +711,14 @@ CREATE PROCEDURE insertar_actualizar_datosDelServicio(
     IN p_servicio_idservicio INT
 )
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION BEGIN ROLLBACK; END;
+    -- Si hay excepción SQL: revertir la transacción Y re-lanzar el error al llamador
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION BEGIN ROLLBACK; RESIGNAL; END;
 
     START TRANSACTION;
 
+    -- Desactivar estados previos (0 filas afectadas es válido para servicios nuevos)
     UPDATE estadoServicio SET estadoRegistro = 0, fechaRegistro = NOW()
     WHERE idservicio = p_servicio_idservicio;
-
-    IF ROW_COUNT() = 0 THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No se encontraron registros para actualizar.';
-    END IF;
 
     INSERT INTO estadoServicio (estadoRegistro, fechaRegistro, idp_estadoservicio, idservicio, usuario_idusuario)
     VALUES (1, NOW(), p_estado, p_servicio_idservicio, p_asignado);
@@ -729,7 +727,7 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No se pudo insertar el nuevo registro en estadoServicio.';
     END IF;
 
-    IF p_id IS NOT NULL AND EXISTS (SELECT * FROM datosdelservicio WHERE id = p_id AND servicio_idservicio = p_servicio_idservicio) THEN
+    IF p_id IS NOT NULL AND EXISTS (SELECT 1 FROM datosdelservicio WHERE id = p_id AND servicio_idservicio = p_servicio_idservicio) THEN
         UPDATE datosDelServicio
         SET fechaInicioServicio = p_fechaInicioServicio,
             asignado            = p_asignado,
@@ -755,10 +753,7 @@ BEGIN
             estadoRegistro      = 1,
             fechaRegistro       = NOW()
         WHERE id = p_id AND servicio_idservicio = p_servicio_idservicio;
-
-        IF ROW_COUNT() = 0 THEN
-            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No se encontraron registros en datosDelServicio para actualizar.';
-        END IF;
+        -- ROW_COUNT=0 aquí solo significa que ningún valor cambió, lo cual es válido
     ELSE
         INSERT INTO datosdelservicio (
             fechaInicioServicio, asignado, operador, imei, linea, renovacion, fechaRenovacion,
@@ -1113,10 +1108,13 @@ CREATE PROCEDURE sp_ActualizarTercero(
 )
 BEGIN
     IF p_idtercero IS NULL THEN
-        INSERT INTO tercero (nombreTercero, identificacionTercero, emailTercero, telefonoTercero,
-            estadoRegistro, fechaRegistro, idvehiculoPorUsuario, idvehiculo, idusuario)
-        VALUES (p_nombreTercero, p_identificacionTercero, p_emailTercero, p_telefonoTercero,
-            1, NOW(), p_idvehiculoPorUsuario, p_idvehiculo, p_idusuario);
+        -- Solo insertar si el vínculo vehiculoporusuario existe para evitar errores de FK
+        IF p_idvehiculoPorUsuario IS NOT NULL THEN
+            INSERT INTO tercero (nombreTercero, identificacionTercero, emailTercero, telefonoTercero,
+                estadoRegistro, fechaRegistro, idvehiculoPorUsuario, idvehiculo, idusuario)
+            VALUES (p_nombreTercero, p_identificacionTercero, p_emailTercero, p_telefonoTercero,
+                1, NOW(), p_idvehiculoPorUsuario, p_idvehiculo, p_idusuario);
+        END IF;
     ELSE
         UPDATE tercero
         SET nombreTercero         = p_nombreTercero,

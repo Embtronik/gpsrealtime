@@ -321,11 +321,16 @@ async function generateTableRows(in_servicio, in_vehiculo) {
         return response.json();
       })
       .then((data) => {
-        console.log('Success:', data);
-        location.reload(); //cambiar de página
+        console.log('Response:', data);
+        if (!data.success) {
+          alert('Error al guardar: ' + (data.message || 'Error desconocido. Revisa la consola.'));
+          return;
+        }
+        location.reload();
       })
       .catch((error) => {
         console.error('Error:', error);
+        alert('Error de red al guardar. Intenta de nuevo.');
       });
     } else {
       // El usuario hizo clic en Cancelar, no hacer nada
