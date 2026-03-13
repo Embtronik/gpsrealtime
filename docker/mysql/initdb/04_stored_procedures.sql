@@ -727,7 +727,7 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No se pudo insertar el nuevo registro en estadoServicio.';
     END IF;
 
-    IF p_id IS NOT NULL AND EXISTS (SELECT 1 FROM datosdelservicio WHERE id = p_id AND servicio_idservicio = p_servicio_idservicio) THEN
+    IF p_id IS NOT NULL AND EXISTS (SELECT 1 FROM datosDelServicio WHERE id = p_id AND servicio_idservicio = p_servicio_idservicio) THEN
         UPDATE datosDelServicio
         SET fechaInicioServicio = p_fechaInicioServicio,
             asignado            = p_asignado,
@@ -755,7 +755,7 @@ BEGIN
         WHERE id = p_id AND servicio_idservicio = p_servicio_idservicio;
         -- ROW_COUNT=0 aquí solo significa que ningún valor cambió, lo cual es válido
     ELSE
-        INSERT INTO datosdelservicio (
+        INSERT INTO datosDelServicio (
             fechaInicioServicio, asignado, operador, imei, linea, renovacion, fechaRenovacion,
             recarga, fechaRecarga, instalacion, instalador, valorInstalacion, pagoInstalacion,
             valorVenta, medotoPago, realizarFactura, manejo, ingresoPago, remision,

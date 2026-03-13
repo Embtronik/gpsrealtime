@@ -56,7 +56,7 @@ BEGIN
         SET MESSAGE_TEXT = 'No se pudo insertar el nuevo registro en estadoServicio.';
     END IF;
 
-    IF p_id IS NOT NULL AND EXISTS (SELECT * FROM datosdelservicio WHERE id = p_id AND servicio_idservicio = p_servicio_idservicio) THEN
+    IF p_id IS NOT NULL AND EXISTS (SELECT * FROM datosDelServicio WHERE id = p_id AND servicio_idservicio = p_servicio_idservicio) THEN
         -- Actualizar los datos existentes
         UPDATE datosDelServicio
         SET
@@ -91,7 +91,7 @@ BEGIN
         END IF;
     ELSE
         -- Insertar nuevos datos
-        INSERT INTO datosdelservicio (
+        INSERT INTO datosDelServicio (
             fechaInicioServicio,
             asignado,
             operador,
