@@ -68,7 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
               "codigo" => $placa
           );
           $json = json_encode($bienvenida);
-          echo $json;
 
           // Inicializar cURL
           $ch = curl_init();
