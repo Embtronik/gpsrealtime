@@ -75,7 +75,10 @@ sp_BuscarTerceroPorIDs
 sp_delete_servicioparausuario
 ObtenerTodosCanalesComerciales
 ObtenerResultados
-sp_MetricasServiciosPorMes"
+sp_MetricasServiciosPorMes
+obtener_tipoIdentificacion
+obtener_tipoComercial
+obtener_tipoComoSeEntero"
 
 MISSING=0
 for SP in $EXPECTED_SPS; do

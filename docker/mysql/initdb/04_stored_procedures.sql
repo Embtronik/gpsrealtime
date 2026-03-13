@@ -1223,3 +1223,43 @@ BEGIN
 END //
 
 DELIMITER ;
+
+-- ── Catálogos para formulario editar cliente ─────────────────────────────────
+DROP PROCEDURE IF EXISTS obtener_tipoIdentificacion;
+
+DELIMITER //
+
+CREATE PROCEDURE obtener_tipoIdentificacion()
+BEGIN
+    SELECT DISTINCT *
+    FROM   p_tipoidentificacion
+    WHERE  estadoRegistro = 1;
+END //
+
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS obtener_tipoComercial;
+
+DELIMITER //
+
+CREATE PROCEDURE obtener_tipoComercial()
+BEGIN
+    SELECT DISTINCT *
+    FROM   p_comercial
+    WHERE  estadoRegistro = 1;
+END //
+
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS obtener_tipoComoSeEntero;
+
+DELIMITER //
+
+CREATE PROCEDURE obtener_tipoComoSeEntero()
+BEGIN
+    SELECT DISTINCT *
+    FROM   p_comoseentero
+    WHERE  estadoRegistro = 1;
+END //
+
+DELIMITER ;
