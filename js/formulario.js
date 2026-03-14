@@ -1,58 +1,96 @@
 const form = document.getElementById('formulario');
-form.addEventListener('submit', (event) => {
-  // Prevenir que se recargue la página al enviar el formulario
-  event.preventDefault();
+const btnEnviar = document.getElementById('enviar');
 
-  // Obtener los valores del formulario
-  const fecha = document.getElementById('fecha').value;
-  const servicio =document.getElementById('servicio').value;
-  const tipoIdentificacion = document.getElementById('tipo_identificacion').value;
-  const identificacion = document.getElementById('identificacion').value;
-  const nombre = document.getElementById('nombre').value;
-  const telefono = document.getElementById('prefijo').value + " " + document.getElementById('telefono').value;
-  const direccion = document.getElementById('direccion').value;
-  const email = document.getElementById('email').value;
-  const marcaVehiculo = document.getElementById('marcaVehiculo').value;
-  const referenciaVehiculo = document.getElementById('referenciaVehiculo').value;
-  const modeloVehiculo = document.getElementById('modeloVehiculo').value;
-  const cilindrajeVehiculo = document.getElementById('cilindrajeVehiculo').value;
-  const placa = document.getElementById('placa').value;
-  const comercial = document.getElementById('comercial').value;
-  const metodoPago = document.getElementById('metodoPago').value;
-  const comoSeEntero = document.getElementById('comoSeEntero').value;
-  const tratamiento = document.getElementById('tratamiento').checked;
-  const recomendaciones = document.getElementById('recomendaciones').checked;
+// Muestra un mensaje de error visible en pantalla (no console.error)
+function mostrarError(msg) {
+  let banner = document.getElementById('form-error-banner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'form-error-banner';
+    banner.style.cssText = [
+      'background:#c0392b','color:#fff','border-radius:8px',
+      'padding:14px 18px','margin:16px 0','font-size:0.95rem',
+      'line-height:1.5','text-align:center'
+    ].join(';');
+    form.insertAdjacentElement('beforebegin', banner);
+  }
+  banner.textContent = msg;
+  banner.style.display = 'block';
+  banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
 
-  // Enviar los datos a la API
-  fetch('./codigo/apidatos.php', {
-    method: 'POST',
-    body: JSON.stringify({ 
-        fecha,
-        servicio,
-        tipoIdentificacion,
-        identificacion,
-        nombre,
-        telefono,
-        direccion,
-        email,
-        marcaVehiculo,
-        referenciaVehiculo,
-        modeloVehiculo,
-        cilindrajeVehiculo,
-        placa,
-        comercial,
-        metodoPago,
-        comoSeEntero,
-        tratamiento,
-        recomendaciones }),
-    headers: {
-      'Content-Type': 'application/json'
+function ocultarError() {
+  const banner = document.getElementById('form-error-banner');
+  if (banner) banner.style.display = 'none';
+}
+
+// Estado del botón durante el envío
+function setLoading(loading) {
+  if (loading) {
+    btnEnviar.disabled = true;
+    btnEnviar.dataset.originalText = btnEnviar.innerHTML;
+    btnEnviar.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:8px"></span>Enviando...';
+    if (!document.getElementById('spin-style')) {
+      const s = document.createElement('style');
+      s.id = 'spin-style';
+      s.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+      document.head.appendChild(s);
     }
-  })
-  .then(response => response.json())
-  .then(data => {console.log(data)
-      if (data.success) {
-        window.location.href = 'exitregister.html';
-          }})
-  .catch(error => console.error(error));
+  } else {
+    btnEnviar.disabled = false;
+    if (btnEnviar.dataset.originalText) {
+      btnEnviar.innerHTML = btnEnviar.dataset.originalText;
+    }
+  }
+}
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  ocultarError();
+
+  const payload = {
+    fecha:              document.getElementById('fecha').value,
+    servicio:           document.getElementById('servicio').value,
+    tipoIdentificacion: document.getElementById('tipo_identificacion').value,
+    identificacion:     document.getElementById('identificacion').value,
+    nombre:             document.getElementById('nombre').value,
+    telefono:           document.getElementById('prefijo').value + ' ' + document.getElementById('telefono').value,
+    direccion:          document.getElementById('direccion').value,
+    email:              document.getElementById('email').value,
+    marcaVehiculo:      document.getElementById('marcaVehiculo').value,
+    referenciaVehiculo: document.getElementById('referenciaVehiculo').value,
+    modeloVehiculo:     document.getElementById('modeloVehiculo').value,
+    cilindrajeVehiculo: document.getElementById('cilindrajeVehiculo').value,
+    placa:              document.getElementById('placa').value,
+    comercial:          document.getElementById('comercial').value,
+    metodoPago:         document.getElementById('metodoPago').value,
+    comoSeEntero:       document.getElementById('comoSeEntero').value,
+    tratamiento:        document.getElementById('tratamiento').checked,
+    recomendaciones:    document.getElementById('recomendaciones').checked,
+  };
+
+  setLoading(true);
+  try {
+    const response = await fetch('./codigo/apidatos.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error del servidor (' + response.status + '). Intenta de nuevo.');
+    }
+
+    const data = await response.json();
+
+    if (data.success) {
+      window.location.href = 'exitregister.html';
+    } else {
+      setLoading(false);
+      mostrarError(data.message || 'No se pudo enviar el formulario. Por favor intenta de nuevo.');
+    }
+  } catch (err) {
+    setLoading(false);
+    mostrarError('No se pudo enviar el formulario. Verifica tu conexión e intenta de nuevo.');
+  }
 });
