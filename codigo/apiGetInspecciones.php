@@ -49,7 +49,14 @@ $sql = "
             i.nombre_cliente,
             i.telefono_cliente,
             i.novedades,
-            COUNT(ii.id) AS total_items
+            COUNT(ii.id) AS total_items,
+            (SELECT ii2.observaciones
+             FROM   inspeccion_item ii2
+             JOIN   checklist_item ci ON ci.id = ii2.item_id
+             WHERE  ii2.inspeccion_id = i.id
+               AND  ci.nombre = 'Valor Instalación'
+             LIMIT  1) AS valor_instalacion,
+            (SELECT COUNT(*) FROM inspeccion_foto f WHERE f.inspeccion_id = i.id) AS foto_count
     FROM    inspeccion i
     LEFT JOIN inspeccion_item ii ON ii.inspeccion_id = i.id
     WHERE   " . implode(' AND ', $where) . "

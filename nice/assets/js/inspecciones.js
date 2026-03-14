@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
   btnLimpiar.addEventListener('click', () => {
     form.reset();
     document.getElementById('bodyInspecciones').innerHTML =
-      '<tr><td colspan="8" class="text-center text-muted">Use los filtros para buscar inspecciones.</td></tr>';
+      '<tr><td colspan="10" class="text-center text-muted">Use los filtros para buscar inspecciones.</td></tr>';
   });
 });
 
@@ -29,7 +29,7 @@ async function buscarInspecciones() {
   const hasta   = document.getElementById('filtroHasta').value;
 
   const tbody = document.getElementById('bodyInspecciones');
-  tbody.innerHTML = '<tr><td colspan="8" class="text-center"><div class="spinner-border spinner-border-sm text-primary me-2"></div> Cargando...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="10" class="text-center"><div class="spinner-border spinner-border-sm text-primary me-2"></div> Cargando...</td></tr>';
 
   try {
     const resp = await fetch('../codigo/apiGetInspecciones.php', {
@@ -58,7 +58,7 @@ function renderInspecciones(rows) {
   const tbody = document.getElementById('bodyInspecciones');
 
   if (!rows || rows.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">Sin resultados para los filtros aplicados.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10" class="text-center text-muted">Sin resultados para los filtros aplicados.</td></tr>';
     return;
   }
 
@@ -73,6 +73,12 @@ function renderInspecciones(rows) {
       <td>${escHtml(row.nombre_cliente || '-')}</td>
       <td>${escHtml(row.telefono_cliente || '-')}</td>
       <td><span class="badge bg-secondary">${row.total_items}</span></td>
+      <td>${row.valor_instalacion ? '<strong>$' + escHtml(row.valor_instalacion) + '</strong>' : '<span class="text-muted">-</span>'}</td>
+      <td>
+        ${(row.foto_count > 0)
+          ? `<a href="../codigo/descargar_fotos_inspeccion.php?id=${Number(row.id)}" class="btn btn-sm btn-outline-success" target="_blank" title="Descargar ${Number(row.foto_count)} foto(s)"><i class="bi bi-images me-1"></i>${Number(row.foto_count)}</a>`
+          : '<span class="text-muted small">-</span>'}
+      </td>
       <td>
         <button class="btn btn-sm btn-primary" onclick="verDetalle(${Number(row.id)})">
           <i class="bi bi-eye-fill me-1"></i>Ver

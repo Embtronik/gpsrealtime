@@ -27,6 +27,7 @@ function normalize(str){return (str||'').toLowerCase().normalize('NFD').replace(
 function esItemUbicacion(n){return normalize(n)===normalize('Ubicación del GPS segura y discreta');}
 function esItemEnergia(n){return normalize(n)===normalize('Donde Toma Energía para GPS');}
 function esItemColor(n){return normalize(n)===normalize('Color');}
+function esItemValorInstalacion(n){return normalize(n)===normalize('Valor Instalación');}
 
 // Inicializa el comportamiento del select de color (mostrar input "Otro...")
 function setupColorSelects(){
@@ -116,7 +117,7 @@ function renderFormulario(schema) {
         itemDiv.className = 'item-insp';
 
         // Estado HTML
-        const estadoHtml = `
+        let estadoHtml = `
           <div>
             <label class="gps-label">Estado</label>
             <select class="gps-input gps-estado estado" data-item-id="${it.id}" required>
@@ -159,6 +160,23 @@ function renderFormulario(schema) {
                 <div class="invalid-feedback">Selecciona o escribe un color.</div>
               </div>
             </div>`;
+        } else if (esItemValorInstalacion(it.nombre)) {
+          // Campo especial: importe numérico con signo $. Estado fijo en NA (oculto).
+          estadoHtml = `
+            <div class="d-none">
+              <select class="gps-input gps-estado estado" data-item-id="${it.id}">
+                <option value="NA" selected>N/A</option>
+              </select>
+            </div>`;
+          observacionHtml = `
+            <div class="col-full">
+              <label class="gps-label">Valor instalación <span class="req">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text fw-bold">$</span>
+                <input type="text" inputmode="decimal" class="gps-input observacion" data-item-id="${it.id}"
+                  placeholder="0" style="border-radius:0 0.375rem 0.375rem 0">
+              </div>
+            </div>`;
         } else {
           observacionHtml = `
             <div class="col-full">
@@ -191,7 +209,28 @@ function renderFormulario(schema) {
   // Activa el comportamiento del select de color
   setupColorSelects();
 
-  // �"?�"? Botones de acción �"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?�"?
+  // ── Sección: Fotos de la instalación ──────────────────────────────────────
+  const cardFotos = document.createElement('div');
+  cardFotos.className = 'insp-card';
+  cardFotos.innerHTML = `
+    <div class="insp-card-header">
+      <i class="bi bi-camera-fill"></i>
+      <span>Fotos de la instalación</span>
+      <span class="badge bg-secondary ms-auto" id="fotosCount" style="font-size:.75rem">0 fotos</span>
+    </div>
+    <div class="insp-card-body">
+      <p class="text-muted small mb-2">Opcional. Puede agregar hasta 20 imágenes (JPEG, PNG, WebP · máx. 10 MB c/u).</p>
+      <label class="btn btn-outline-primary btn-sm" style="cursor:pointer">
+        <i class="bi bi-upload me-1"></i>Seleccionar fotos
+        <input type="file" id="fotosInput" multiple accept="image/jpeg,image/png,image/gif,image/webp" class="d-none">
+      </label>
+      <div id="fotosPreview" class="d-flex flex-wrap gap-2 mt-3"></div>
+    </div>`;
+  cont.appendChild(cardFotos);
+
+  document.getElementById('fotosInput').addEventListener('change', actualizarPreviewFotos);
+
+  // ── Botones de acción ──────────────────────────────────────────────────────
   const acciones = document.createElement('div');
   acciones.className = 'btns-wrap';
   acciones.innerHTML = `
@@ -217,6 +256,7 @@ function renderFormulario(schema) {
       else e.value = '';
     });
     cont.querySelectorAll('select.gps-estado').forEach(s => { delete s.dataset.val; });
+    limpiarFotos();
   };
   document.getElementById('btnGuardar').onclick = () => {
     const fecha     = (document.getElementById('fecha_hidden').value || '').trim();
@@ -277,23 +317,93 @@ function renderFormulario(schema) {
     const payload = {
       fecha, tecnico, placa, novedades, detalle,
       nombre_cliente, email_cliente, telefono_cliente
-    };    
+    };
 
-    fetch('codigo/save_inspeccion.php', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-    .then(r => r.json())
-    .then(res => {
-      if (!res.success) throw new Error(res.message || 'Error al guardar');
-      resetFormulario();
-    })
-    .catch(err => {
-      console.error(err);
-      alert('No se pudo guardar: ' + err.message);
-    });
+    const btn = document.getElementById('btnGuardar');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status"></span>Guardando…';
+
+    (async () => {
+      try {
+        const r   = await fetch('codigo/save_inspeccion.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const res = await r.json();
+        if (!res.success) throw new Error(res.message || 'Error al guardar');
+
+        // ── Subir fotos si el técnico seleccionó alguna ──────────────────
+        const fotosInput = document.getElementById('fotosInput');
+        const archivos   = fotosInput ? Array.from(fotosInput.files || []) : [];
+        if (archivos.length > 0) {
+          const fd = new FormData();
+          fd.append('inspeccion_id', res.inspeccion_id);
+          archivos.forEach(f => fd.append('fotos[]', f));
+          try {
+            await fetch('codigo/upload_fotos_inspeccion.php', { method: 'POST', body: fd });
+          } catch (_) {
+            // La inspección ya fue guardada; la falla de fotos no bloquea al usuario
+            console.warn('Las fotos no se pudieron subir, pero la inspección fue guardada.');
+          }
+        }
+
+        // ── Mostrar modal de éxito ────────────────────────────────────────
+        const modalEl = document.getElementById('modalGuardadoOk');
+        if (modalEl && window.bootstrap) {
+          const modal = new bootstrap.Modal(modalEl);
+          modalEl.addEventListener('hidden.bs.modal', () => resetFormulario(), { once: true });
+          modal.show();
+        } else {
+          alert('¡Inspección guardada exitosamente!');
+          resetFormulario();
+        }
+      } catch (err) {
+        console.error(err);
+        alert('No se pudo guardar: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-send-fill"></i>Guardar Inspección';
+      }
+    })();
   };
+}
+
+// ── Preview de fotos seleccionadas ───────────────────────────────────────────
+function actualizarPreviewFotos() {
+  const input    = document.getElementById('fotosInput');
+  const preview  = document.getElementById('fotosPreview');
+  const countBdg = document.getElementById('fotosCount');
+  if (!input || !preview || !countBdg) return;
+
+  const files = Array.from(input.files || []).slice(0, 20);
+  preview.innerHTML = '';
+
+  files.forEach(file => {
+    const url = URL.createObjectURL(file);
+    const div = document.createElement('div');
+    div.style.cssText = 'position:relative;width:80px;height:80px;flex-shrink:0';
+    const img = document.createElement('img');
+    img.src   = url;
+    img.alt   = file.name;
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:6px;border:1px solid #dee2e6';
+    img.onload = () => URL.revokeObjectURL(url);
+    div.appendChild(img);
+    preview.appendChild(div);
+  });
+
+  countBdg.textContent = files.length + ' ' + (files.length === 1 ? 'foto' : 'fotos');
+  countBdg.className   = 'badge ms-auto' + (files.length > 0 ? ' bg-primary' : ' bg-secondary');
+  countBdg.style.fontSize = '.75rem';
+}
+
+function limpiarFotos() {
+  const input    = document.getElementById('fotosInput');
+  const preview  = document.getElementById('fotosPreview');
+  const countBdg = document.getElementById('fotosCount');
+  if (input)    input.value = '';
+  if (preview)  preview.innerHTML = '';
+  if (countBdg) { countBdg.textContent = '0 fotos'; countBdg.className = 'badge bg-secondary ms-auto'; countBdg.style.fontSize = '.75rem'; }
 }
 
 function validateColorRequired() {
@@ -391,6 +501,9 @@ function resetFormulario(){
     if (sel)  sel.value = '';
     if (otro){ otro.value = ''; otro.classList.add('d-none'); }
   });
+
+  // Limpiar fotos seleccionadas
+  limpiarFotos();
 
   // Opcional: subir al inicio
   window.scrollTo({ top: 0, behavior: 'smooth' });
