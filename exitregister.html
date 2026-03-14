@@ -3,68 +3,238 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cliente GPS Real Time</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-  <!-- CSS de bootstrap-select -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
-
-  <!-- JavaScript de bootstrap-select -->
-  
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
-
+  <title>¡Registro exitoso! – GPS Real Time</title>
+  <link rel="icon" href="./img/logo_32x32.png" type="image/png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <style>
-    .container {
-    max-width: auto;
-    height: auto;
-    border: 1px solid #ccc;
-    overflow: hidden;
-    }
-    .container img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    }
-		form {
-		  border: 2px solid black;
-		  background-color: blue;
-		  padding: 20px; /* opcional, agrega espacio adicional entre el borde y el contenido del formulario */
-      color: white; /* establece el color del texto en blanco */
-		}
-    .logo {
-			display: block;
-			margin: 0 auto;
-			max-width: 100%;
-			height: auto;
-			padding-top: 20px;
-			text-align: center;
-      background-color: blue;
-      border: 2px solid black;
-		}
-    .comment {
-			font-size: 24px;
-			font-style: italic;
-			color: white;
-			margin-top: 10px;
-			text-align: center;
-		}
-    label.required {
-      color: red;
+    :root {
+      --gps-primary: #0b3d91;
+      --gps-accent:  #1a73e8;
+      --gps-light:   #e8f0fe;
+      --gps-bg:      #f0f4f8;
+      --gps-text:    #1c2b3a;
+      --gps-muted:   #6c757d;
+      --gps-radius:  14px;
+      --gps-shadow:  0 2px 16px rgba(11,61,145,0.10);
     }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--gps-bg);
+      color: var(--gps-text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ── */
+    .gps-header {
+      background: var(--gps-primary);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+    .gps-logo {
+      height: 38px;
+      width: 38px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+    }
+    .gps-brand {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* ── Main ── */
+    .gps-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px 60px;
+    }
+
+    /* ── Card ── */
+    .success-card {
+      background: #fff;
+      border-radius: var(--gps-radius);
+      box-shadow: var(--gps-shadow);
+      padding: 48px 36px 40px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* ── Check circle animado ── */
+    .check-circle {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: var(--gps-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    }
+    .check-circle i {
+      font-size: 2.8rem;
+      color: var(--gps-primary);
+    }
+    @keyframes pop {
+      0%   { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* ── Textos ── */
+    .success-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gps-primary);
+      margin-bottom: 12px;
+    }
+    .success-msg {
+      font-size: 1rem;
+      color: var(--gps-muted);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .success-msg strong {
+      color: var(--gps-text);
+    }
+
+    /* ── Divider ── */
+    .success-divider {
+      border: none;
+      border-top: 1px solid #e3eaf4;
+      margin: 0 0 24px;
+    }
+
+    /* ── Steps ── */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      text-align: left;
+      margin-bottom: 32px;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .step-icon {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--gps-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gps-accent);
+      font-size: 1rem;
+    }
+    .step-text {
+      font-size: 0.9rem;
+      color: var(--gps-text);
+      line-height: 1.5;
+      padding-top: 4px;
+    }
+
+    /* ── Botón volver ── */
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gps-primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 13px 28px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-back:hover {
+      background: var(--gps-accent);
+      transform: translateY(-1px);
+      color: #fff;
+    }
+
+    /* ── Footer ── */
+    .gps-footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 0.78rem;
+      color: var(--gps-muted);
+    }
+
+    @media (max-width: 480px) {
+      .success-card { padding: 36px 20px 28px; }
+      .success-title { font-size: 1.25rem; }
+    }
   </style>
 </head>
 <body>
-    <div class="container col-8">
-      <div class="logo">
-        <img src="./img/banner.png" alt="Logo de mi formulario">
-        <div class="comment">
-          !!! Bienvenido a la Familia GPS Real Time ¡¡¡
+
+  <!-- Header -->
+  <header class="gps-header">
+    <img src="./img/logo.png" alt="GPS Real Time" class="gps-logo">
+    <span class="gps-brand">GPS Real Time</span>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="gps-main">
+    <div class="success-card">
+
+      <!-- Ícono animado -->
+      <div class="check-circle">
+        <i class="bi bi-check-lg"></i>
+      </div>
+
+      <h1 class="success-title">¡Bienvenido a la familia!</h1>
+      <p class="success-msg">
+        Tu registro fue enviado exitosamente.<br>
+        <strong>Un asesor GPS Real Time se pondrá en contacto contigo muy pronto.</strong>
+      </p>
+
+      <hr class="success-divider">
+
+      <!-- Próximos pasos -->
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon"><i class="bi bi-envelope-check"></i></div>
+          <div class="step-text">Recibirás un correo de confirmación con los detalles de tu registro.</div>
         </div>
-       
+        <div class="step">
+          <div class="step-icon"><i class="bi bi-telephone"></i></div>
+          <div class="step-text">Un asesor te contactará para coordinar la instalación de tu dispositivo GPS.</div>
+        </div>
+        <div class="step">
+          <div class="step-icon"><i class="bi bi-shield-check"></i></div>
+          <div class="step-text">Tu vehículo estará protegido con monitoreo en tiempo real 24/7.</div>
+        </div>
+      </div>
+
+      <a href="client.html" class="btn-back">
+        <i class="bi bi-arrow-left"></i>Volver al inicio
+      </a>
+
     </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">    
-  </script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  </main>
+
+  <footer class="gps-footer">
+    © 2026 GPS Real Time · Todos los derechos reservados
+  </footer>
+
 </body>
 </html>
