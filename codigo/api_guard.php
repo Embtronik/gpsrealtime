@@ -17,6 +17,7 @@ $_GUARD_PUBLIC = [
     'apimetodopago.php',
     'apicomercial.php',
     'apicomoseentero.php',
+    'apidatos.php',       // registro de nuevo cliente (formulario público)
 ];
 
 $_GUARD_EXEMPT = array_merge(['apicredenciales.php', 'apiRecibeWA.php'], $_GUARD_PUBLIC);
